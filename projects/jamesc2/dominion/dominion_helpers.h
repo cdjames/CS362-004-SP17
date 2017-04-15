@@ -17,6 +17,9 @@ int playSmithy(struct gameState *state, int currentPlayer, int handPos);
 int playAdventurer(struct gameState *state, int currentPlayer, int * cardDrawn, int *temphand, int * drawntreasure, int * z);
 int playBaron(struct gameState *state, int currentPlayer, int choice1);
 
+int playCutpurse(struct gameState *state, int currentPlayer, int handPos);
+
+int playSeaHag(struct gameState *state, int currentPlayer);
 
 
 
