@@ -10,6 +10,12 @@
 
 #define DEBUG 0
 
+#define BUGS 1
+#define BUG_SM 1
+#define BUG_AD 1
+#define BUG_CP 1
+#define BUG_SH 1
+
 
 
 /* http://dominion.diehrstraits.com has card texts */
