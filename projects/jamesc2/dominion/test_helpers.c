@@ -30,7 +30,7 @@ void printTestStart(const char* name) {
 
 void printTestEnd(const char* name, int fail) {
 	if(fail)
-		printf("\n:( :( :( FAILURE - %s\n\n", name);
+		printf("\n------------ FAILURE - %s\n\n", name);
 	else
-		printf("\n:) :) :) SUCCESS - %s\n\n", name);
+		printf("\n++++++++++++ SUCCESS - %s\n\n", name);
 }

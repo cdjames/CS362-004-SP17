@@ -831,9 +831,9 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
     case smithy:
       //+3 Cards
       for (i = 0; i < 3; i++)
-	{
-	  drawCard(currentPlayer, state);
-	}
+    	{
+    	  drawCard(currentPlayer, state);
+    	}
 			
       //discard card from hand
       discardCard(handPos, currentPlayer, state, 0);
