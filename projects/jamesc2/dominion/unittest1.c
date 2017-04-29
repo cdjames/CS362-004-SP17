@@ -15,7 +15,7 @@
 
 int main()
 {
-	int seed = 999,
+	int seed = 999, // bug appears if set to 100 (shuffle returns same card pattern)
 		numPlayers = 2,
 		same = 0,
 		failure = 0,

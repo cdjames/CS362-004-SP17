@@ -21,7 +21,6 @@ int main()
 		coins = 0,
 		numBuys = 0,
 		failure = 0,
-		i,
 		currPlayer = 0;
 	int k[10] = {adventurer, embargo, village, minion, mine, cutpurse,
 			sea_hag, tribute, smithy, council_room};
