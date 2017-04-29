@@ -1,25 +1,25 @@
 #include "test_helpers.h"
 
-int assertTrue(const char* test, int left, int right, const char* lmsg, const char* rmsg, int reverse) {
+int assertTrue(const char* test, int num, int left, int right, const char* lmsg, const char* rmsg, int reverse) {
 	const char* msg;
 	int failure = 0;
 	if (reverse){
 		if (left != right)
-			msg = "    PASSED";
+			msg = "    PASSED TEST ";
 		else {
-			msg = "    FAILED";
+			msg = "    FAILED TEST ";
 			failure = 1;
 		}
 	} else {
 		if (left == right)
-			msg = "    PASSED";
+			msg = "    PASSED TEST ";
 		else {
-			msg = "    FAILED";
+			msg = "    FAILED TEST ";
 			failure = 1;
 		}
 	}
 
-	printf("%s %s: %s = %d, %s = %d\n", msg, test, lmsg, left, rmsg, right);
+	printf("%s%d, %s: %s = %d, %s = %d\n", msg, num, test, lmsg, left, rmsg, right);
 
 	return failure;
 }

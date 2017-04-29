@@ -31,7 +31,7 @@ int main()
 	// copy the game
 	memcpy(&testG, &Game, sizeof(struct gameState));
 
-	failure += assertTrue("deck counts match", testG.deckCount[currPlayer], Game.deckCount[currPlayer], "testG deckCount", "Game deckCount", 0);
+	failure += assertTrue("deck counts match", 1, testG.deckCount[currPlayer], Game.deckCount[currPlayer], "testG deckCount", "Game deckCount", 0);
 	for (i = 0; i < testG.deckCount[currPlayer]; i++)
 	{
 		if (testG.deck[currPlayer][i] == Game.deck[currPlayer][i]){
@@ -41,7 +41,7 @@ int main()
 		}
 	}
 
-	failure += assertTrue("deck same before shuffle", testG.deckCount[currPlayer], same, "testG deckCount", "#same cards", 0);
+	failure += assertTrue("deck same before shuffle", 2, testG.deckCount[currPlayer], same, "testG deckCount", "#same cards", 0);
 
 	// do shuffle
 	shuffle(currPlayer, &Game);
@@ -56,7 +56,7 @@ int main()
 		}
 	}
 
-	failure += assertTrue("deck not same after shuffle", testG.deckCount[currPlayer], same, "testG deckCount", "#same cards", 1);
+	failure += assertTrue("deck not same after shuffle", 3, testG.deckCount[currPlayer], same, "testG deckCount", "#same cards", 1);
 
 	printTestEnd("shuffle()", failure);
 	return 0;
