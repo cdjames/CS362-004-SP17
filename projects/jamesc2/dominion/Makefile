@@ -24,8 +24,8 @@ testAll: dominion.o testSuite.c
 interface.o: interface.h interface.c
 	gcc -c interface.c -g  $(CFLAGS)
 
-unittest1: test_helpers.o
-	gcc -o unittest1 unittest1.c -g test_helpers.o $(CFLAGS)
+unittest1: test_helpers.o dominion.o rngs.o
+	gcc -o unittest1 unittest1.c -g test_helpers.o dominion.o rngs.o $(CFLAGS)
 
 test_helpers.o: test_helpers.h
 	gcc -c test_helpers.c -g  $(CFLAGS)
