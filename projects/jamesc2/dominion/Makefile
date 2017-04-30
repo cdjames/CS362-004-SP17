@@ -42,6 +42,12 @@ cardtest1: test_helpers.o dominion.o rngs.o
 cardtest2: test_helpers.o dominion.o rngs.o
 	gcc -o cardtest2 cardtest2.c -g test_helpers.o dominion.o rngs.o $(CFLAGS)
 
+cardtest3: test_helpers.o dominion.o rngs.o
+	gcc -o cardtest3 cardtest3.c -g test_helpers.o dominion.o rngs.o $(CFLAGS)
+
+cardtest4: test_helpers.o dominion.o rngs.o
+	gcc -o cardtest4 cardtest4.c -g test_helpers.o dominion.o rngs.o $(CFLAGS)
+
 test_helpers.o: test_helpers.h
 	gcc -c test_helpers.c -g  $(CFLAGS)
 
@@ -57,4 +63,4 @@ player: player.c interface.o
 all: playdom player testDrawCard testBuyCard badTestDrawCard
 
 clean:
-	rm -f *.o cardtest1 cardtest2 unittest1 unittest2 unittest3 unittest4 playdom.exe playdom test.exe test player player.exe testInit testInit.exe *.gcov *.gcda *.gcno *.so
+	rm -f *.o cardtest1 cardtest2 cardtest3 cardtest4 unittest1 unittest2 unittest3 unittest4 playdom.exe playdom test.exe test player player.exe testInit testInit.exe *.gcov *.gcda *.gcno *.so

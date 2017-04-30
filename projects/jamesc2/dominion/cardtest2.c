@@ -57,7 +57,7 @@ int main()
 	printf("cards=%d\n", cardCount0);
 	cardCount1 = Game.handCount[currPlayer+1];
 	Game.whoseTurn = currPlayer;
-	cardEffect(smithy, 0, 0, 0, &Game, 1, &bonus);
+	cardEffect(adventurer, 0, 0, 0, &Game, 1, &bonus);
 	failure += assertTrue("P. 1 count increases by 1 (1 discarded)", 2, Game.handCount[currPlayer], cardCount0+1, "cards in p.1 after", "expected", 0);
 	failure += assertTrue("P. 2 count does not increase", 3, Game.handCount[currPlayer+1], cardCount1, "cards in p.2 after", "expected", 0);
 	found = 0;
