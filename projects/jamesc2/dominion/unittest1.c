@@ -58,6 +58,10 @@ int main()
 
 	failure += assertTrue("deck not same after shuffle", 3, testG.deckCount[currPlayer], same, "testG deckCount", "#same cards", 1);
 
-	printTestEnd("shuffle()", failure);
+	// test with deck count at 0
+	Game.deckCount[currPlayer] = 0;
+	failure += assertTrue("can't shuffle empty deck", 4, shuffle(currPlayer, &Game), -1, "shuffle() result", "expected", 0);
+
+	printTestEnd("shuffle()", failure, 4);
 	return 0;
 }

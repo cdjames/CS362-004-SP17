@@ -28,9 +28,9 @@ void printTestStart(const char* name) {
 	printf("\n######################### Testing %s #########################\n\n", name);
 }
 
-void printTestEnd(const char* name, int fail) {
+void printTestEnd(const char* name, int fail, int tests) {
 	if(fail)
-		printf("\n------------ FAILURE - %s\n\n", name);
+		printf("\n------------ FAILURE - %s: %d/%d tests passed\n\n", name, tests-fail, tests);
 	else
-		printf("\n++++++++++++ SUCCESS - %s\n\n", name);
+		printf("\n++++++++++++ SUCCESS - %s: %d/%d tests passed\n\n", name, tests, tests);
 }

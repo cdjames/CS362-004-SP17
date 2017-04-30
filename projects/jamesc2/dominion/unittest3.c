@@ -19,8 +19,7 @@ int main()
 		numPlayers = 2,
 		failure = 0,
 		empty = 0,
-		i,
-		currPlayer = 0;
+		i;
 	int k[10] = {adventurer, embargo, village, minion, mine, cutpurse,
 			sea_hag, tribute, smithy, council_room};
 
@@ -58,13 +57,13 @@ int main()
 
 	// more than 3 stacks empty
 	memcpy(&Game, &testG, sizeof(struct gameState));
-	empty = floor(Random() * (treasure_map-3)) + 3;
-	printf("%d\n", empty);
+	empty = floor(Random() * (treasure_map-4)) + 4;
+	// printf("%d\n", empty);
 	for (i = curse; i <= empty; i++)
 		Game.supplyCount[i] = 0;
 	failure += assertTrue(">3 stacks empty", 5, isGameOver(&Game), 1, "isGameOver result", "expected", 0);
 
 
-	printTestEnd("isGameOver()", failure);
+	printTestEnd("isGameOver()", failure, 5);
 	return 0;
 }

@@ -18,16 +18,14 @@ int main()
 	int seed = 999,
 		numPlayers = 2,
 		cardCount0 = 0,
-		cardCount1 = 0,
 		deckCount1 = 0,
 		currPlayer = 0,
-		discard = 0,
-		discardBefore = 0,
-		curse = 0,
+		p1discard = 0,
+		p1curse = 0,
 		found = 0,
 		curseBefore = 0,
-		money = 0,
 		i = 0,
+		iter = 1,
 		bonus = 0, 
 		failure = 0;
 	int k[10] = {adventurer, embargo, village, minion, mine, cutpurse,
@@ -54,43 +52,71 @@ int main()
 	// Game.whoseTurn = 3;
 	// failure += assertTrue("Handle cycle players", 1, Game.handCount[currPlayer], cardCount0+1, "cards in p.1 after", "expected", 0);
 
-	// Sea Hag specific tests
-	// memcpy(&Game, &testG, sizeof(struct gameState));
-	cardCount0 = Game.handCount[currPlayer];
-	// printf("cards=%d\n", cardCount0);
-	cardCount1 = Game.handCount[currPlayer+1];
-	deckCount1 = Game.deckCount[currPlayer+1];
-	// discardCount1 = Game.discardCount[currPlayer+1];
-	printf("deckCount1=%d\n", deckCount1);
-	Game.whoseTurn = currPlayer;
-	for (i = 0; i < deckCount1; i++)
-	{
-		if(Game.deck[currPlayer+1][i] == curse)
-			curseBefore += 1;
+	for (iter = 1; iter < 3; iter++)
+		{
+		if(iter == 1)
+			printf("**Iteration 1: deck has cards\n");
+		if(iter == 2) {
+			printf("**Iteration 2: deck is empty (expect shuffling of deck)\n");
+			// try with empty deck
+			memcpy(&Game, &testG, sizeof(struct gameState)); // reset game
+			deckCount1 = Game.deckCount[currPlayer+1];
+			// printf("deckCount=%d\n", Game.deckCount[currPlayer+1]);
+			// copy deck to discard
+			for (i = 0; i < deckCount1; i++)
+			{
+				// printf("iteration=%d\n", i);
+				Game.discard[currPlayer+1][i] = Game.deck[currPlayer+1][i];
+				Game.discardCount[currPlayer+1]++;
+				Game.deckCount[currPlayer+1]--;
+			}
+			// printf("deckCount=%d\n", Game.deckCount[currPlayer+1]);
+			// printf("discardCount=%d\n", Game.discardCount[currPlayer+1]);
+			Game.deckCount[currPlayer+1] = 0;
+			found = p1curse = curseBefore = 0;
+		}
+		// Sea Hag specific tests
+		// memcpy(&Game, &testG, sizeof(struct gameState));
+		cardCount0 = Game.handCount[currPlayer];
+		deckCount1 = Game.deckCount[currPlayer+1];
+		p1discard = Game.discardCount[currPlayer+1];
+		Game.whoseTurn = currPlayer;
+		for (i = 0; i < deckCount1; i++)
+		{
+			if(Game.deck[currPlayer+1][i] == curse)
+				curseBefore += 1;
+		}
+		cardEffect(sea_hag, 0, 0, 0, &Game, 3, &bonus);
+		failure += assertTrue("P. 1 count decreases by 1", 1, Game.handCount[currPlayer], cardCount0-1, "cards in p.1 after", "expected", 0);
+		cardCount0 = Game.handCount[currPlayer];
+		for (i = 0; i < cardCount0; i++)
+		{
+			if(Game.hand[currPlayer][i] == sea_hag)
+				found += 1;
+		}
+
+		failure += assertTrue("Sea Hag not in hand", 2, found, 0, "sea_hag cards", "expected", 0);
+		// check player 1's deck for curse and total count
+		for (i = 0; i < deckCount1; i++)
+		{
+			if(Game.deck[currPlayer+1][i] == curse)
+				p1curse += 1;
+		}
+
+		failure += assertTrue("Curse in p. 2 deck", 3, p1curse, curseBefore+1, "num curses", "expected", 0);
+		failure += assertTrue("Curse top in p. 2 deck", 4, Game.deck[currPlayer+1][Game.deckCount[currPlayer+1]--], curse, "top card", "expected", 0);
+		if(iter == 1)
+			failure += assertTrue("P2 deck count same", 5, Game.deckCount[currPlayer+1], deckCount1, "p2 deck count", "expected", 0);
+		if(iter == 2)
+			failure += assertTrue("P2 deck now size of discard", 5, Game.deckCount[currPlayer+1], p1discard, "p2 deck count", "expected", 0);
+		if(iter == 1)
+			failure += assertTrue("P2 discard count = +1", 6, Game.discardCount[currPlayer+1], p1discard+1, "p2 discard count", "expected", 0);
+		if(iter == 2)
+			failure += assertTrue("P2 discard count = 1", 6, Game.discardCount[currPlayer+1], 1, "p2 discard count", "expected", 0);			
 	}
-	cardEffect(sea_hag, 0, 0, 0, &Game, 3, &bonus);
-	failure += assertTrue("P. 1 count decreases by 1", 1, Game.handCount[currPlayer], cardCount0-1, "cards in p.1 after", "expected", 0);
-	for (i = 0; i < Game.handCount[currPlayer]; i++)
-	{
-		if(Game.hand[currPlayer][i] == sea_hag)
-			found += 1;
-	}
-
-	failure += assertTrue("Sea Hag not in hand", 2, found, 0, "sea_hag cards", "expected", 0);
-	// check player 1's deck for curse and total count
-	for (i = 0; i < deckCount1; i++)
-	{
-		if(Game.deck[currPlayer+1][i] == curse)
-			curse += 1;
-	}
-
-	failure += assertTrue("Curse in p. 2 deck", 3, curse, curseBefore+1, "num curses", "expected", 0);
-	failure += assertTrue("Curse top in p. 2 deck", 4, Game.deck[currPlayer+1][Game.deckCount[currPlayer+1]--], curse, "top card", "expected", 0);
-	failure += assertTrue("P2 deck count same", 5, Game.deckCount[currPlayer+1], deckCount1, "p2 deck", "expected", 0);
 
 
 
-
-	printTestEnd("cardEffect(Sea Hag)", failure);
+	printTestEnd("cardEffect(Sea Hag)", failure, 6);
 	return 0;
 }

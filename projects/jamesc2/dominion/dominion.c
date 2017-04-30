@@ -1107,30 +1107,30 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 
       updateCoins(currentPlayer, state, 2);
       for (i = 0; i < state->numPlayers; i++)
-	{
-	  if (i != currentPlayer)
-	    {
-	      for (j = 0; j < state->handCount[i]; j++)
-		{
-		  if (state->hand[i][j] == copper)
-		    {
-		      discardCard(j, i, state, 0);
-		      break;
-		    }
-		  if (j == state->handCount[i])
-		    {
-		      for (k = 0; k < state->handCount[i]; k++)
-			{
-			  if (DEBUG)
-			    printf("Player %d reveals card number %d\n", i, state->hand[i][k]);
-			}	
-		      break;
-		    }		
-		}
-					
-	    }
-				
-	}				
+    	{
+    	  if (i != currentPlayer)
+    	    {
+    	      for (j = 0; j < state->handCount[i]; j++)
+        		{
+        		  if (state->hand[i][j] == copper)
+        		    {
+        		      discardCard(j, i, state, 0);
+        		      break;
+        		    }
+        		  if (j == state->handCount[i])
+        		    {
+        		      for (k = 0; k < state->handCount[i]; k++)
+            			{
+            			  if (DEBUG)
+            			    printf("Player %d reveals card number %d\n", i, state->hand[i][k]);
+            			}	
+        		      break;
+        		    }		
+        		}
+    					
+    	    }
+    				
+    	}				
 
       //discard played card from hand
       discardCard(handPos, currentPlayer, state, 0);			
@@ -1182,7 +1182,8 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
     case sea_hag:
       for (i = 0; i < state->numPlayers; i++){
       	if (i != currentPlayer){
-      	  state->discard[i][state->discardCount[i]] = state->deck[i][state->deckCount[i]--];			    state->deckCount[i]--;
+      	  state->discard[i][state->discardCount[i]] = state->deck[i][state->deckCount[i]--];			    
+          state->deckCount[i]--;
       	  state->discardCount[i]++;
       	  state->deck[i][state->deckCount[i]--] = curse;//Top card now a curse
       	}
@@ -1309,17 +1310,17 @@ int updateCoins(int player, struct gameState *state, int bonus)
   for (i = 0; i < state->handCount[player]; i++)
     {
       if (state->hand[player][i] == copper)
-	{
-	  state->coins += 1;
-	}
+    	{
+    	  state->coins += 1;
+    	}
       else if (state->hand[player][i] == silver)
-	{
-	  state->coins += 2;
-	}
+    	{
+    	  state->coins += 2;
+    	}
       else if (state->hand[player][i] == gold)
-	{
-	  state->coins += 3;
-	}	
+    	{
+    	  state->coins += 3;
+    	}	
     }	
 
   //add bonus

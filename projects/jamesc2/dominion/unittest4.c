@@ -38,6 +38,6 @@ int main()
 	Game.whoseTurn = 2;
 	failure += assertTrue("invalid player count", 3, numHandCards(&Game), 0, "numHandCards result", "expected", 0);
 
-	printTestEnd("numHandCards()", failure);
+	printTestEnd("numHandCards()", failure, 3);
 	return 0;
 }

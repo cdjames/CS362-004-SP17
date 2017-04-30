@@ -20,7 +20,6 @@ int main()
 		cardCount0 = 0,
 		cardCount1 = 0,
 		currPlayer = 0,
-		discard = 0,
 		bonus = 0,
 		found = 0,  
 		i = 0,
@@ -67,6 +66,6 @@ int main()
 	failure += assertTrue("Smithy not in hand", 4, found, 0, "smithy cards", "expected", 0);
 
 
-	printTestEnd("cardEffect(Smithy)", failure);
+	printTestEnd("cardEffect(Smithy)", failure, 4);
 	return 0;
 }

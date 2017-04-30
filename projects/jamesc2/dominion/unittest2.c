@@ -65,6 +65,6 @@ int main()
 	failure += assertTrue("coins decreased", 7, Game.coins, coins-getCost(adventurer), "numBuys after buy", "expected", 0);
 
 
-	printTestEnd("buyCard()", failure);
+	printTestEnd("buyCard()", failure, 7);
 	return 0;
 }
