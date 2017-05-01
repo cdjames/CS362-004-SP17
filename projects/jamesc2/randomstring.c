@@ -7,8 +7,8 @@
 /*
 
 I wasn't sure how you wanted us to approach this (i.e. how random it needed
-	to be), so I created two implementations: a fast one with more 
-	randomness, and a slow one with less.
+	to be), so I created two implementations: a fast one with less 
+	randomness, and a slow one with more.
 
 In the slow method, which I have chosen to submit by default, inputChar()
 	produces random characters between ' ' and '}', so it gets its 
