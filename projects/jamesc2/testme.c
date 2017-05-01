@@ -2,6 +2,7 @@
 ** Author: Collin James
 ** Date: April 30, 2017
 ** Description: A random tester
+** compile: gcc testme.c
 *********************************************************************/
 
 #include<stdio.h>
