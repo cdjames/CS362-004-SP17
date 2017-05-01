@@ -17,7 +17,7 @@ char inputChar()
     // return master[ran];
 
     /* slow method: look characters from first needed to last needed */
-    char ran = (rand() % (126-32))+32;
+    char ran = (rand() % (126-32))+32; // ' ' to }
     return ran;
 }
 
@@ -25,7 +25,9 @@ char *inputString()
 {
   char randChar(){
     // return a random lowercase letter
-    return (rand() % (117-101))+101;
+    // return (rand() % (123-97))+97; // a-z
+    return (rand() % (117-101))+101; // e-t
+    
   }
     char *mystr = (char *) malloc(sizeof(char) * 5);
     
@@ -44,7 +46,7 @@ char *inputString()
     mystr[4] = five;
 
     /* fast method: just look through necessary characters 
-        example # iterations: 1852 (w/ fast inputChar()) */
+        example # iterations: 277 - 1852 (w/ fast inputChar()) */
     // char master[] = "rest";
     // mystr[0] = master[(rand() % 4)];
     // mystr[1] = master[(rand() % 4)];
