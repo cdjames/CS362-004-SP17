@@ -667,7 +667,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
   switch( card ) 
     {
     case adventurer:
-      return playAdventurer(state, currentPlayer, &cardDrawn, temphand, &drawntreasure);
+      return playAdventurer(state, currentPlayer, &cardDrawn, temphand, &drawntreasure, &z);
  //      while(drawntreasure<2){
 	// if (state->deckCount[currentPlayer] <1){//if the deck is empty we need to shuffle discard and add to deck
 	//   shuffle(currentPlayer, state);
@@ -1244,32 +1244,34 @@ int playSmithy(struct gameState *state, int currentPlayer, int handPos) {
   return 0;
 }
 
-int playAdventurer(struct gameState *state, int currentPlayer, int * cardDrawn, int *temphand, int * drawntreasure) {
+int playAdventurer(struct gameState *state, int currentPlayer, int * cardDrawn, int *temphand, int * drawntreasure, int * zr) {
   printf("playing adventurer\n");
   int z = 0;
-  while(*drawntreasure<2){
+  while( (*drawntreasure) < 2){
+    
+    // printf("deckCount=%d\n", state->deckCount[currentPlayer]);
     if (state->deckCount[currentPlayer] < 1){//if the deck is empty we need to shuffle discard and add to deck
       shuffle(currentPlayer, state);
     }
     drawCard(currentPlayer, state);
     *cardDrawn = state->hand[currentPlayer][state->handCount[currentPlayer]-1];//top card of hand is most recently drawn card.
+    // printf("cardDrawn=%d\n", *cardDrawn);
     if (*cardDrawn == copper || *cardDrawn == silver || *cardDrawn == gold)
       (*drawntreasure)++;
     else{
-      if(BUGS && BUG_AD) {
-        temphand[z]=cardDrawn; // bug: assign address of cardDrawn instead of value
-        printf("temphand[z]=%d\n", cardDrawn);
-      }
-      else
-        temphand[z]=*cardDrawn;
+      temphand[z] = (*cardDrawn);
       state->handCount[currentPlayer]--; //this should just remove the top card (the most recently drawn one).
       z++;
     }
   }
+  
+  *zr = z;
   while(z-1 >= 0){
     state->discard[currentPlayer][state->discardCount[currentPlayer]++] = temphand[z-1]; // discard all cards in play that have been drawn
     z = z-1;
   }
+  // printf("got here\n");
+  
   return 0;
 }
 

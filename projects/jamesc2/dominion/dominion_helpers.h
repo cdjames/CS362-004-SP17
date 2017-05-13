@@ -14,7 +14,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3,
 
 int playSmithy(struct gameState *state, int currentPlayer, int handPos);
 
-int playAdventurer(struct gameState *state, int currentPlayer, int * cardDrawn, int *temphand, int * drawntreasure);
+int playAdventurer(struct gameState *state, int currentPlayer, int * cardDrawn, int *temphand, int * drawntreasure, int * zr);
 
 int playCutpurse(struct gameState *state, int currentPlayer, int handPos);
 
