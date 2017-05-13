@@ -1315,7 +1315,7 @@ int playCutpurse(struct gameState *state, int currentPlayer, int handPos) {
 int playSeaHag(struct gameState *state, int currentPlayer) {
   printf("playing Sea Hag\n");
   int i;
-  for (i = 0; i < state->numPlayers; (BUGS && BUG_SH) ? i-- : i++){
+  for (i = 0; i < state->numPlayers; i++){
     if (i != currentPlayer){
       state->discard[i][state->discardCount[i]] = state->deck[i][state->deckCount[i]--];          
       state->deckCount[i]--;

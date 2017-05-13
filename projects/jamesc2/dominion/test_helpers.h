@@ -15,6 +15,7 @@ void printTestEnd(const char* name, int fail, int tests);
 
 int getRandom(const int max);
 
-void createRandomState(struct gameState * g, int * pl);
+void createRandomState(struct gameState * g, int * pl, int special);
+void createRandomStateSH(struct gameState * g, int pl);
 
 #endif

@@ -13,17 +13,20 @@
 #include "test_helpers.h"
 #include "rngs.h"
 
-#define NUM_RUNS 3000
+#define NUM_RUNS 300
 
-void adventurerGetTreasure(struct gameState * g, int p) {
+void adventurerGetTreasure(struct gameState * g, int p, int special) {
 	// remove treasure cards from deck and put in hand; inc hand/dec deck
 	int drawntreasure = 0,
 		cardDrawn,
 		temphand[MAX_DECK],
 		size = 0,
-		i;
+		i,
+		numtreas=2;
+	if(special)
+		numtreas = 1;
 	// printf("deckCount=%d\n", g->deckCount[p]);
-	while(drawntreasure<2){
+	while(drawntreasure<numtreas){
 		// printf("deckCount=%d\n", g->deckCount[p]);
 		// going to draw a card, so decrement deckCount
 		// top card of index is most recently drawn card.
@@ -53,7 +56,8 @@ void checkCard(
 		int * tmphand,
 		int tmpsize,
 		struct gameState *post, 
-		struct gameState *pre)
+		struct gameState *pre,
+		int special)
 {
 	// uses ideas from Lecture 11
 	/* recreate the state of post using pre */
@@ -68,7 +72,7 @@ void checkCard(
 		// create an equal discard pile and count
 		// adventurerDiscard(pre, player, tmphand, tmpsize);
 		// add correct cards to hand and decrement deck count
-		adventurerGetTreasure(pre, player);
+		adventurerGetTreasure(pre, player, special);
 	}
 	else { // need to simulate shuffle; not sure how else to do this besides copying all of the following
 		// printf("got here\n");
@@ -84,7 +88,10 @@ void checkCard(
 		pre->deckCount[player] = post->deckCount[player];
 	}
 	// increase handcount by 2 (in all cases)
-	pre->handCount[player] += 2;
+	if(!special)
+		pre->handCount[player] += 2;
+	else
+		pre->handCount[player] += 1;
 	// printf("AFTER ADJUSTMENTS\n");
 	// printf("discard count pre=%d, post=%d\n", pre->discardCount[player], post->discardCount[player]);
 	// printf("deck count pre=%d, post=%d\n", pre->deckCount[player], post->deckCount[player]);
@@ -109,7 +116,7 @@ void checkCard(
 }
 
 
-int runTest(int num, int * failure) {
+int runTest(int num, int * failure, int special) {
 	/* variables */
 	int player,
 		result,
@@ -124,7 +131,7 @@ int runTest(int num, int * failure) {
 	// generate random gamestate & player
 	g = newGame();
 	pre = newGame();
-	createRandomState(g, &player);
+	createRandomState(g, &player, special);
 	memcpy(pre, g, sizeof(struct gameState));
 	// run the function
 	result = playAdventurer(g, player, &cd, temphand, &dtreas, &tmpsize);
@@ -132,7 +139,7 @@ int runTest(int num, int * failure) {
 	// 
 	// check the results
 	// printf("got here\n");
-	checkCard(result, failure, &num, player, temphand, tmpsize, g, pre);
+	checkCard(result, failure, &num, player, temphand, tmpsize, g, pre, special);
 	
 	free(g);
 	// printf("freeing\n");
@@ -155,8 +162,14 @@ int main()
 	printTestStart("playAdventurer");
 	for (i = 0; i < NUM_RUNS; i++)
 	{
-		num = runTest(num, &failure);
+		num = runTest(num, &failure, 0);
 	}
+
+	// do special case: only one treasure in deck
+	num = runTest(num, &failure, 1);
+	// do special case: only one treasure in discard
+	num = runTest(num, &failure, 2);
+
 
 	printTestEnd("playAdventurer", failure, --num);
 	return 0;

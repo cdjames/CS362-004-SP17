@@ -27,6 +27,9 @@ interface.o: interface.h interface.c
 randomtestadventurer: test_helpers.o dominion.o rngs.o
 	gcc -o randomtestadventurer randomtestadventurer.c -g test_helpers.o dominion.o rngs.o $(CFLAGS)
 
+randomtestcard1: test_helpers.o dominion.o rngs.o
+	gcc -o randomtestcard1 randomtestcard1.c -g test_helpers.o dominion.o rngs.o $(CFLAGS)
+
 test_helpers.o: rngs.o test_helpers.h dominion.h
 	gcc -c test_helpers.c -g  $(CFLAGS)
 
@@ -35,8 +38,15 @@ runtests: testDrawCard
 	gcov dominion.c >> unittestresult.out
 	cat dominion.c.gcov >> unittestresult.out
 
-unittestresults.out: randomtestadventurer dominion.o 
+unittestresults.out: randomtestadventurer randomtestcard1 dominion.o 
 	./randomtestadventurer &> unittestresults.out
+	gcov dominion.c >>  unittestresults.out
+	cat dominion.c.gcov >> unittestresults.out
+	gcov -b dominion.c >> unittestresults.out
+	cat dominion.c.gcov >> unittestresults.out
+	./randomtestcard1 &>> unittestresults.out
+	gcov dominion.c >>  unittestresults.out
+	cat dominion.c.gcov >> unittestresults.out
 	gcov -b dominion.c >> unittestresults.out
 	cat dominion.c.gcov >> unittestresults.out
 
