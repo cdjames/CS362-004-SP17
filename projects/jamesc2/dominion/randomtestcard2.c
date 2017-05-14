@@ -98,12 +98,6 @@ int runTest(int num, int * failure, int special) {
 	// generate random gamestate & player
 	g = newGame();
 	pre = newGame();
-	// randomize game
-	for (i = 0; i < sizeof(struct gameState); i++)
-	{
-		( ((char*)g)[i] = getRandom(256) );
-	}
-
 	// create decks for the player 
 	createRandomStateEm(g, player, choice, special);
 	handpos = getRandom(g->handCount[player]-1);

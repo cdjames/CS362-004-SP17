@@ -168,6 +168,12 @@ void createRandomStateEm(struct gameState * g, int pl, int choice, int special){
 	int divisor = getRandom(5)+5; 
 	// *pl = getRandom(p)+2;
 	int i;
+	// randomize game
+	for (i = 0; i < sizeof(struct gameState); i++)
+	{
+		( ((char*)g)[i] = getRandom(256) );
+	}
+
 	g->numPlayers = MAX_PLAYERS;
 	g->handCount[pl] = getRandom(MAX_DECK);
 	g->discardCount[pl] = getRandom(MAX_DECK);
