@@ -1,3 +1,8 @@
+/*********************************************************************
+** Author: Collin James
+** Date: 04-29-17
+** Description: Supporting functions for a random tester for dominion.c
+*********************************************************************/
 #ifndef _TEST_HELPERS_H
 #define _TEST_HELPERS_H
 

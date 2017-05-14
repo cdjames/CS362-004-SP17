@@ -1,4 +1,8 @@
-
+/*********************************************************************
+** Author: Collin James
+** Date: 04-29-17
+** Description: Supporting functions for a random tester for dominion.c
+*********************************************************************/
 #include "test_helpers.h"
 
 
@@ -127,38 +131,15 @@ void createRandomStateSH(struct gameState * g, int pl, int special){
 	{
 		// printf("i=%d, imod5=%d\n", i, i%divisor);
 		g->deck[pl][i] = getRandom(treasure_map);
-		// if(special == 0) {
-		// 	if(i%divisor == 0)
-		// 		g->deck[pl][i] = getRandom(duchy)+copper; // get random copper, silver, gold
-		// }
-
-		// else {// make sure there are no treasure cards
-		// 	if(g->deck[pl][i] >= copper && g->deck[pl][i] <= gold)
-		// 		g->deck[pl][i] = getRandom((treasure_map-7)+7); // get a card that's not a treasure
-			
-		// }		
+	
 	}
-	// special case where deck only has one treasure
-	// if(special == 1)
-	// 	g->deck[pl][specialdeck] = getRandom(duchy)+copper;
 
 	// make sure you have some treasure cards in discard 
 	for (i = 0; i < g->discardCount[pl]; i++)
 	{
 		g->discard[pl][i] = getRandom(treasure_map);
-		// printf("i=%d, imod5=%d\n", i, i%divisor);
-		// if(special == 0) {
-		// 	if(i%divisor == 0)
-		// 		g->discard[pl][i] = getRandom(duchy)+copper; // get random copper, silver, gold
-		// }
-		// else {// make sure there are no treasure cards
-		// 	if(g->discard[pl][i] >= copper && g->discard[pl][i] <= gold)
-		// 		g->discard[pl][i] = getRandom((treasure_map-7)+7); // get a card that's not a treasure
-		// }
+
 	}
-	// special case where discard only has one treasure
-	// if(special == 2)
-	// 	g->discard[pl][specialdisc] = getRandom(duchy)+copper;
 
 }
 
@@ -191,45 +172,21 @@ void createRandomStateEm(struct gameState * g, int pl, int choice, int special){
 	// special case: supply count is not in play
 	if(special)
 		g->supplyCount[choice] = -1;
-	// g->deckCount[*pl] = 0; // testing empty deck
-	// make sure you have some treasure cards in deck 
+
 	
 	for (i = 0; i < g->deckCount[pl]; i++)
 	{
 		// printf("i=%d, imod5=%d\n", i, i%divisor);
 		
 		g->deck[pl][i] = getRandom(treasure_map);
-		// if(special == 0) {
-		// 	if(i%divisor == 0)
-		// 		g->deck[pl][i] = getRandom(duchy)+copper; // get random copper, silver, gold
-		// }
-
-		// else {// make sure there are no treasure cards
-		// 	if(g->deck[pl][i] >= copper && g->deck[pl][i] <= gold)
-		// 		g->deck[pl][i] = getRandom((treasure_map-7)+7); // get a card that's not a treasure
-			
-		// }		
+	
 	}
-	// special case where deck only has one treasure
-	// if(special == 1)
-	// 	g->deck[pl][specialdeck] = getRandom(duchy)+copper;
 
 	// make sure you have some treasure cards in discard 
 	for (i = 0; i < g->discardCount[pl]; i++)
 	{
 		g->discard[pl][i] = getRandom(treasure_map);
-		// printf("i=%d, imod5=%d\n", i, i%divisor);
-		// if(special == 0) {
-		// 	if(i%divisor == 0)
-		// 		g->discard[pl][i] = getRandom(duchy)+copper; // get random copper, silver, gold
-		// }
-		// else {// make sure there are no treasure cards
-		// 	if(g->discard[pl][i] >= copper && g->discard[pl][i] <= gold)
-		// 		g->discard[pl][i] = getRandom((treasure_map-7)+7); // get a card that's not a treasure
-		// }
+
 	}
-	// special case where discard only has one treasure
-	// if(special == 2)
-	// 	g->discard[pl][specialdisc] = getRandom(duchy)+copper;
 
 }

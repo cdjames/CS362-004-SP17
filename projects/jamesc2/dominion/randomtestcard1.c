@@ -1,7 +1,7 @@
 /*********************************************************************
 ** Author: Collin James
 ** Date: 04-29-17
-** Description: A random tester for cardEffect(Adventurer) from dominion.c
+** Description: A random tester for playSeaHag() from dominion.c
 *********************************************************************/
 
 #include <stdio.h>
