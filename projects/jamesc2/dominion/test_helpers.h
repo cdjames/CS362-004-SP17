@@ -17,5 +17,6 @@ int getRandom(const int max);
 
 void createRandomState(struct gameState * g, int * pl, int special);
 void createRandomStateSH(struct gameState * g, int pl);
+void createRandomStateEm(struct gameState * g, int pl, int choice, int special);
 
 #endif

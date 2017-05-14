@@ -13,7 +13,7 @@
 #include "test_helpers.h"
 #include "rngs.h"
 
-#define NUM_RUNS 1
+#define NUM_RUNS 300
 
 
 void checkCard(
@@ -21,6 +21,9 @@ void checkCard(
 		int * failure,
 		int * num,
 		int player,
+		int choice,
+		int handpos,
+		int special,
 		struct gameState *post, 
 		struct gameState *pre)
 {
@@ -32,39 +35,39 @@ void checkCard(
 	// printf("deck count pre=%d, post=%d\n", pre->deckCount[player], post->deckCount[player]);
 	// printf("hand count pre=%d, post=%d\n", pre->handCount[player], post->handCount[player]);
 	// printf("tmpsize=%d\n", tmpsize);
-	int i;
-	(*num)--;
-	for(i=0; i < MAX_PLAYERS; i++) {
-		/* for each player other than current, check that top card of pre deck is top card in post discard
-		and also check that top card of post deck is a curse card. Deck count should be the same*/
-		if(i != player) {
-			if(pre->deckCount[i] > 0) { // can simulate discard and drawing
-				// put top card of deck on the discard pile
-				pre->discard[i][pre->discardCount[i]++] = pre->deck[i][pre->deckCount[i]-1];
+	int i,
+		hcount = pre->handCount[player],
+		expected = (special) ? -1 : 0;
+	
+	/* increase coins by 2; put embargo on top of supply pile; discard card */
+	pre->coins += 2;
 
-				// put a curse card on top of deck
-				pre->deck[i][pre->deckCount[i]-1] = curse;
+	// supply pile is not empty, so add the embargo and trash the card
+	if(!special){
+		// add embargo
+		pre->embargoTokens[choice]++;
+		// trash card
+		pre->discard[player][pre->discardCount[player]-1] = pre->hand[player][handpos];
+		pre->discardCount[player]++;
+		if(handpos < hcount-1){ // if not last card
+			// simulate discarding
+			for (i = 0; i < hcount-2; i++)
+			{
+				pre->hand[player][handpos+i] = pre->hand[player][handpos+i+1];
 			}
-			else { // need to simulate shuffle; not sure how else to do this besides copying all of the following
-				// printf("got here\n");
-				// copy deck and discard piles from post
-				memcpy(pre->deck[i], post->deck[i], sizeof(int) * (MAX_DECK));
-				memcpy(pre->discard[i], post->discard[i], sizeof(int) * (MAX_DECK));
-				// memcpy(pre->hand[player], post->hand[player], sizeof(int) * (MAX_DECK));
-				
-				pre->discardCount[i] = 1; // should be only 1 card, discarded from shuffled deck
-				pre->deckCount[i] = pre->discardCount[i]; // should be equal to the entirety of the discard pile
-			}
-
-			printf("**PLAYER %d\n", i);
-			*failure += assertTrue("other player discard count same", ++(*num), pre->discardCount[i], post->discardCount[i], "pre", "post", 0);
-			*failure += assertTrue("other player deck count same", ++(*num), pre->deckCount[i], post->deckCount[i], "pre", "post", 0);
-			*failure += assertTrue("other player hand count same", ++(*num), pre->handCount[i], post->handCount[i], "pre", "post", 0);
-			*failure += assertTrue("other player top card in deck same", ++(*num), pre->deck[i][pre->deckCount[i]-1], post->deck[i][post->deckCount[i]-1], "pre", "post", 0);
-			*failure += assertTrue("other player top card in deck is curse", ++(*num), post->deck[i][post->deckCount[i]-1], curse, "deck top", "curse", 0);
-			*failure += assertTrue("other player top card in discard same", ++(*num), pre->discard[i][pre->discardCount[i]-1], post->discard[i][post->discardCount[i]-1], "pre", "post", 0);
 		}
+
+		pre->handCount[player]--;
 	}
+
+	*failure += assertTrue("Return is correct", *num, result, expected, "returned", "expected", 0);
+	*failure += assertTrue("Pre & post is same", ++(*num), (memcmp( pre, post, sizeof(struct gameState))), 0, "memcmp pre/post", "expected", 0);
+	*failure += assertTrue("coins same", ++(*num), pre->coins, post->coins, "pre", "post", 0);
+	*failure += assertTrue("embargo # same", ++(*num), pre->embargoTokens[choice], post->embargoTokens[choice], "pre", "post", 0);
+	*failure += assertTrue("hand count same", ++(*num), pre->handCount[player], post->handCount[player], "pre", "post", 0);
+	*failure += assertTrue("deck count same", ++(*num), pre->deckCount[player], post->deckCount[player], "pre", "post", 0);
+	*failure += assertTrue("discard count matches", ++(*num), pre->discardCount[player], post->discardCount[player], "pre", "post", 0);
+
 
 	// printf("AFTER ADJUSTMENTS\n");
 	// printf("discard count pre=%d, post=%d\n", pre->discardCount[player], post->discardCount[player]);
@@ -73,18 +76,10 @@ void checkCard(
 	// printf("top card in hand pre=%d, post=%d\n", pre->hand[player][pre->handCount[player]-1], post->hand[player][post->handCount[player]-1]);
 	// printf("top card in deck pre=%d, post=%d\n", pre->deck[player][pre->deckCount[player]-1], post->deck[player][post->deckCount[player]-1]);
 	// printf("top card in discard pre=%d, post=%d\n", pre->discard[player][pre->discardCount[player]-1], post->discard[player][post->discardCount[player]-1]);
-
-	// get results
-	printf("**CURRENT PLAYER\n");
-	*failure += assertTrue("Return is 0", ++(*num), result, 0, "returned", "expected", 0);
-	*failure += assertTrue("Pre & post is same", ++(*num), (memcmp( pre, post, sizeof(struct gameState))), 0, "memcmp pre/post", "expected", 0);
-	*failure += assertTrue("current player discard count matches", ++(*num), pre->discardCount[player], post->discardCount[player], "pre", "post", 0);
-	*failure += assertTrue("current player deck count same", ++(*num), pre->deckCount[player], post->deckCount[player], "pre", "post", 0);
-	*failure += assertTrue("current player hand count same", ++(*num), pre->handCount[player], post->handCount[player], "pre", "post", 0);
 }
 
 
-int runTest(int num, int * failure) {
+int runTest(int num, int * failure, int special) {
 	/* variables */
 	int result,
 		cd = 0,
@@ -94,7 +89,8 @@ int runTest(int num, int * failure) {
 		i,
 		p = 2, // current player max
 		player = getRandom(p),
-		choice = getRandom(treasure_map);
+		choice = getRandom(treasure_map),
+		handpos;
 	struct gameState * g;
 	struct gameState * pre;
 
@@ -109,18 +105,20 @@ int runTest(int num, int * failure) {
 	}
 
 	// create decks for the player 
-	createRandomStateSH(g, player);
+	createRandomStateEm(g, player, choice, special);
+	handpos = getRandom(g->handCount[player]-1);
 	// put an embargo card on top of player's hand
-	g->hand[player][g->handCount[player]-1] = embargo;
+	g->hand[player][handpos] = embargo;
+	// printf("coins=%d\n", g->coins);
 	g->whoseTurn = player;
 	memcpy(pre, g, sizeof(struct gameState));
 	// run the function
-	result = playEmbargo(g, choice, player, g->handCount[player]-1);
+	result = playEmbargo(g, choice, player, handpos);
 	// printf("deckCount=%d\n", g->deckCount[player]);
 	// 
 	// check the results
 	
-	checkCard(result, failure, &num, player, g, pre);
+	checkCard(result, failure, &num, player, choice, handpos, special, g, pre);
 	// printf("got here\n");
 	
 	free(g);
@@ -144,10 +142,13 @@ int main()
 	printTestStart("playEmbargo");
 	for (i = 0; i < NUM_RUNS; i++)
 	{
-		num = runTest(num, &failure);
+		num = runTest(num, &failure, 0);
 	}
 
 	// if time add any special cases
+	printf("**SUPPLY COUNT EMPTY\n");
+	num = runTest(num, &failure, 1);
+	
 
 	printTestEnd("playEmbargo", failure, --num);
 	return 0;

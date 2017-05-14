@@ -1,4 +1,4 @@
 *.o
 *.gcno
 .DS_Store
-unittestresults.out
+*.out
