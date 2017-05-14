@@ -84,11 +84,6 @@ void checkCard(
 int runTest(int num, int * failure, int special) {
 	/* variables */
 	int result,
-		cd = 0,
-		temphand[MAX_HAND],
-		tmpsize = 0,
-		dtreas = 0,
-		i,
 		p = 2, // current player max
 		player = getRandom(p),
 		choice = getRandom(treasure_map),

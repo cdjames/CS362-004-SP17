@@ -89,10 +89,6 @@ int runTest(int num, int * failure, int special) {
 	/* variables */
 	int player,
 		result,
-		cd = 0,
-		temphand[MAX_HAND],
-		tmpsize = 0,
-		dtreas = 0,
 		i;
 	struct gameState * g;
 	struct gameState * pre;

@@ -110,8 +110,6 @@ void createRandomState(struct gameState * g, int * pl, int special){
 void createRandomStateSH(struct gameState * g, int pl, int special){
 	// create a random state with counts at sane values
 	// uses ideas from Lecture 11 
-	int p = 2; // current player max
-	int divisor = getRandom(5)+5; 
 	// *pl = getRandom(p)+2;
 	int i;
 	g->numPlayers = MAX_PLAYERS;
@@ -122,8 +120,6 @@ void createRandomStateSH(struct gameState * g, int pl, int special){
 	else
 		g->deckCount[pl] = getRandom(MAX_DECK);
 
-	int specialdeck = getRandom(g->deckCount[pl]-1);
-	int specialdisc = getRandom(g->discardCount[pl]-1);
 	
 	// make sure you have some treasure cards in deck 
 	
@@ -146,8 +142,6 @@ void createRandomStateSH(struct gameState * g, int pl, int special){
 void createRandomStateEm(struct gameState * g, int pl, int choice, int special){
 	// create a random state with counts at sane values
 	// uses ideas from Lecture 11 
-	int p = 2; // current player max
-	int divisor = getRandom(5)+5; 
 	// *pl = getRandom(p)+2;
 	int i;
 	// randomize game
