@@ -1237,8 +1237,8 @@ int playSmithy(struct gameState *state, int currentPlayer, int handPos) {
   }
       
   //discard card from hand
-  if(BUGS && BUG_SM)
-    hp = handPos+1;  // bug: discard wrong card (handPos -> handPos + 1)
+  // if(BUGS && BUG_SM)
+  //   hp = handPos+1;  // bug: discard wrong card (handPos -> handPos + 1)
 
   discardCard(hp, currentPlayer, state, 0);
   return 0;

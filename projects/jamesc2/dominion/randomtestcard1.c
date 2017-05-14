@@ -146,6 +146,8 @@ int main()
 		num = runTest(num, &failure);
 	}
 
+	// if time add any special cases
+
 	printTestEnd("playSeaHag", failure, --num);
 	return 0;
 }
