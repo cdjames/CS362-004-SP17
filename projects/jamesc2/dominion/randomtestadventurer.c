@@ -13,7 +13,7 @@
 #include "test_helpers.h"
 #include "rngs.h"
 
-#define NUM_RUNS 300
+#define NUM_RUNS 1000
 
 void adventurerGetTreasure(struct gameState * g, int p, int special) {
 	// remove treasure cards from deck and put in hand; inc hand/dec deck
@@ -162,13 +162,22 @@ int main()
 	printTestStart("playAdventurer");
 	for (i = 0; i < NUM_RUNS; i++)
 	{
-		num = runTest(num, &failure, 0);
+		if(i%100 == 0){
+			printf("**DISCARD CONTAINS 1 TREASURE\n");
+			num = runTest(num, &failure, 2);
+		}
+		else if(i%50 == 0){
+			printf("**DECK CONTAINS 1 TREASURE\n");
+			num = runTest(num, &failure, 1);
+		}
+		else
+			num = runTest(num, &failure, 0);
 	}
 
-	// do special case: only one treasure in deck
-	num = runTest(num, &failure, 1);
-	// do special case: only one treasure in discard
-	num = runTest(num, &failure, 2);
+	// // do special case: only one treasure in deck
+	// num = runTest(num, &failure, 1);
+	// // do special case: only one treasure in discard
+	// num = runTest(num, &failure, 2);
 
 
 	printTestEnd("playAdventurer", failure, --num);

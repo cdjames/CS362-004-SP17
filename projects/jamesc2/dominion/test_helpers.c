@@ -103,28 +103,29 @@ void createRandomState(struct gameState * g, int * pl, int special){
 
 }
 
-void createRandomStateSH(struct gameState * g, int pl){
+void createRandomStateSH(struct gameState * g, int pl, int special){
 	// create a random state with counts at sane values
 	// uses ideas from Lecture 11 
 	int p = 2; // current player max
-	int special = 0;
 	int divisor = getRandom(5)+5; 
 	// *pl = getRandom(p)+2;
 	int i;
 	g->numPlayers = MAX_PLAYERS;
 	g->handCount[pl] = getRandom(MAX_DECK);
 	g->discardCount[pl] = getRandom(MAX_DECK);
-	g->deckCount[pl] = getRandom(MAX_DECK);
+	if (special)
+		g->deckCount[pl] = 0; // testing empty deck
+	else
+		g->deckCount[pl] = getRandom(MAX_DECK);
 
 	int specialdeck = getRandom(g->deckCount[pl]-1);
 	int specialdisc = getRandom(g->discardCount[pl]-1);
-	// g->deckCount[*pl] = 0; // testing empty deck
+	
 	// make sure you have some treasure cards in deck 
 	
 	for (i = 0; i < g->deckCount[pl]; i++)
 	{
 		// printf("i=%d, imod5=%d\n", i, i%divisor);
-		
 		g->deck[pl][i] = getRandom(treasure_map);
 		// if(special == 0) {
 		// 	if(i%divisor == 0)
@@ -178,6 +179,7 @@ void createRandomStateEm(struct gameState * g, int pl, int choice, int special){
 	g->handCount[pl] = getRandom(MAX_DECK);
 	g->discardCount[pl] = getRandom(MAX_DECK);
 	g->deckCount[pl] = getRandom(MAX_DECK);
+	g->playedCardCount = getRandom(MAX_DECK);
 	g->coins = getRandom(256);
 
 	// set sane values for embargo piles (0) and supply count

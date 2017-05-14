@@ -13,7 +13,7 @@
 #include "test_helpers.h"
 #include "rngs.h"
 
-#define NUM_RUNS 300
+#define NUM_RUNS 1000
 
 
 void checkCard(
@@ -21,6 +21,7 @@ void checkCard(
 		int * failure,
 		int * num,
 		int player,
+		int special,
 		struct gameState *post, 
 		struct gameState *pre)
 {
@@ -52,8 +53,8 @@ void checkCard(
 				memcpy(pre->discard[i], post->discard[i], sizeof(int) * (MAX_DECK));
 				// memcpy(pre->hand[player], post->hand[player], sizeof(int) * (MAX_DECK));
 				
+				pre->deckCount[i] = pre->discardCount[i]; // should be equal to the entirety of the discard pile before playing
 				pre->discardCount[i] = 1; // should be only 1 card, discarded from shuffled deck
-				pre->deckCount[i] = pre->discardCount[i]; // should be equal to the entirety of the discard pile
 			}
 
 			printf("**PLAYER %d\n", i);
@@ -84,7 +85,7 @@ void checkCard(
 }
 
 
-int runTest(int num, int * failure) {
+int runTest(int num, int * failure, int special) {
 	/* variables */
 	int player,
 		result,
@@ -109,7 +110,7 @@ int runTest(int num, int * failure) {
 	// create decks for each player
 	for (i = 0; i < MAX_PLAYERS; i++)
 	{
-		createRandomStateSH(g, i);
+		createRandomStateSH(g, i, special);
 	}
 	g->whoseTurn = player = getRandom(MAX_PLAYERS-1);
 	memcpy(pre, g, sizeof(struct gameState));
@@ -119,7 +120,7 @@ int runTest(int num, int * failure) {
 	// 
 	// check the results
 	
-	checkCard(result, failure, &num, player, g, pre);
+	checkCard(result, failure, &num, player, special, g, pre);
 	// printf("got here\n");
 	
 	free(g);
@@ -143,7 +144,12 @@ int main()
 	printTestStart("playSeaHag");
 	for (i = 0; i < NUM_RUNS; i++)
 	{
-		num = runTest(num, &failure);
+		if(i%100){
+			printf("**DECK EMPTY\n");
+			num = runTest(num, &failure, 1);
+		}
+		else
+			num = runTest(num, &failure, 0);
 	}
 
 	// if time add any special cases

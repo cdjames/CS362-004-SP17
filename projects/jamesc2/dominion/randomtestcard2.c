@@ -13,7 +13,7 @@
 #include "test_helpers.h"
 #include "rngs.h"
 
-#define NUM_RUNS 300
+#define NUM_RUNS 1000
 
 
 void checkCard(
@@ -46,9 +46,9 @@ void checkCard(
 	if(!special){
 		// add embargo
 		pre->embargoTokens[choice]++;
-		// trash card
-		pre->discard[player][pre->discardCount[player]-1] = pre->hand[player][handpos];
-		pre->discardCount[player]++;
+		// trash card (distinct from discarding)
+		pre->playedCards[pre->playedCardCount] = pre->hand[player][handpos];
+		pre->playedCardCount++;
 		if(handpos < hcount-1){ // if not last card
 			// simulate discarding
 			for (i = 0; i < hcount-2; i++)
@@ -67,6 +67,8 @@ void checkCard(
 	*failure += assertTrue("hand count same", ++(*num), pre->handCount[player], post->handCount[player], "pre", "post", 0);
 	*failure += assertTrue("deck count same", ++(*num), pre->deckCount[player], post->deckCount[player], "pre", "post", 0);
 	*failure += assertTrue("discard count matches", ++(*num), pre->discardCount[player], post->discardCount[player], "pre", "post", 0);
+	*failure += assertTrue("played card count matches", ++(*num), pre->playedCardCount, post->playedCardCount, "pre", "post", 0);
+	*failure += assertTrue("top played card is same", ++(*num), pre->playedCards[pre->playedCardCount-1], post->playedCards[pre->playedCardCount-1], "pre", "post", 0);
 
 
 	// printf("AFTER ADJUSTMENTS\n");
@@ -136,7 +138,12 @@ int main()
 	printTestStart("playEmbargo");
 	for (i = 0; i < NUM_RUNS; i++)
 	{
-		num = runTest(num, &failure, 0);
+		if(i%100 == 0){
+			printf("**SUPPLY COUNT EMPTY\n");
+			num = runTest(num, &failure, 1);
+		}
+		else
+			num = runTest(num, &failure, 0);
 	}
 
 	// if time add any special cases

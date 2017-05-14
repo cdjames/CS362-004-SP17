@@ -1,4 +1,3 @@
 *.o
 *.gcno
 .DS_Store
-*.out
