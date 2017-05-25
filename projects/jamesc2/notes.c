@@ -31,3 +31,7 @@ possible bugs:
 	- cardtest2: played card not discarded; treasure cards in hand does not increase
 	- cardtest3: played card not discarded; curse card not top card when done; deck counts different; discard counts off; deck counts off
 
+
+Debugging notes:
+
+idea - above bugs are pretty much the same as the bugs in my code, so look to fix a couple of them
