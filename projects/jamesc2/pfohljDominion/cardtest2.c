@@ -26,6 +26,7 @@ int main()
 		i = 0,
 		bonus = 0, 
 		iter = 1,
+		numtests = 0,
 		failure = 0;
 	int k[10] = {adventurer, embargo, village, minion, mine, cutpurse,
 			sea_hag, tribute, smithy, council_room};
@@ -71,9 +72,9 @@ int main()
 		cardEffect(adventurer, 0, 0, 0, &Game, 1, &bonus);
 
 		// check that p1 gets its cards (minus a discard)
-		failure += assertTrue("P. 1 count increases by 1 (+2 - 1 discarded)", 1, Game.handCount[currPlayer], cardCount0+1, "cards in p.1 after", "expected", 0);
+		failure += assertTrue("P. 1 count increases by 1 (+2 - 1 discarded)", ++numtests, Game.handCount[currPlayer], cardCount0+1, "cards in p.1 after", "expected", 0);
 		// check that p2 does not have any extra cards after the turn
-		failure += assertTrue("P. 2 count does not increase", 2, Game.handCount[currPlayer+1], cardCount1, "cards in p.2 after", "expected", 0);
+		failure += assertTrue("P. 2 count does not increase", ++numtests, Game.handCount[currPlayer+1], cardCount1, "cards in p.2 after", "expected", 0);
 		found = 0;
 		for (i = 0; i < Game.handCount[currPlayer]; i++)
 		{
@@ -84,11 +85,11 @@ int main()
 				money += 1;
 		}
 
-		failure += assertTrue("Adventurer not in hand", 3, found, 0, "adventurer cards", "expected", 0);
-		failure += assertTrue("2 treasure cards in hand", 4, money, moneyBefore+2, "treasure cards", "treasure before + 2", 0);
+		failure += assertTrue("Adventurer not in hand", ++numtests, found, 0, "adventurer cards", "expected", 0);
+		failure += assertTrue("2 treasure cards in hand", ++numtests, money, moneyBefore+2, "treasure cards", "treasure before + 2", 0);
 
 		
 	}
-	printTestEnd("cardEffect(Adventurer)", failure, 4*2);
+	printTestEnd("cardEffect(Adventurer)", failure, numtests);
 	return 0;
 }

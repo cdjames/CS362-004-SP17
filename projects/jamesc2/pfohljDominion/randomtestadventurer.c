@@ -53,8 +53,6 @@ void checkCard(
 		int * failure,
 		int * num,
 		int player,
-		int * tmphand,
-		int tmpsize,
 		struct gameState *post, 
 		struct gameState *pre,
 		int special)
@@ -119,11 +117,7 @@ void checkCard(
 int runTest(int num, int * failure, int special) {
 	/* variables */
 	int player,
-		result,
-		cd = 0,
-		temphand[MAX_HAND],
-		tmpsize = 0,
-		dtreas = 0;
+		result;
 	struct gameState * g;
 	struct gameState * pre;
 
@@ -132,14 +126,16 @@ int runTest(int num, int * failure, int special) {
 	g = newGame();
 	pre = newGame();
 	createRandomState(g, &player, special);
+	player = whoseTurn(g);
 	memcpy(pre, g, sizeof(struct gameState));
 	// run the function
-	result = playAdventurer(g, player, &cd, temphand, &dtreas, &tmpsize);
+	// result = playAdventurer(g, player, &cd, temphand, &dtreas, &tmpsize);
+	result = Adventurer(g);
 	// printf("deckCount=%d\n", g->deckCount[player]);
 	// 
 	// check the results
 	// printf("got here\n");
-	checkCard(result, failure, &num, player, temphand, tmpsize, g, pre, special);
+	checkCard(result, failure, &num, player, g, pre, special);
 	
 	free(g);
 	// printf("freeing\n");

@@ -36,6 +36,8 @@ randomtestcard2: test_helpers.o dominion.o rngs.o
 test_helpers.o: rngs.o test_helpers.h dominion.h
 	gcc -c test_helpers.c -g  $(CFLAGS)
 
+unittests: unittest1 unittest2 unittest3 unittest4
+
 unittest1: test_helpers.o dominion.o rngs.o
 	gcc -o unittest1 unittest1.c -g test_helpers.o dominion.o rngs.o $(CFLAGS)
 
@@ -48,6 +50,8 @@ unittest3: test_helpers.o dominion.o rngs.o
 unittest4: test_helpers.o dominion.o rngs.o
 	gcc -o unittest4 unittest4.c -g test_helpers.o dominion.o rngs.o $(CFLAGS)
 
+cardtests: cardtest1 cardtest2 cardtest3 cardtest4
+	
 cardtest1: test_helpers.o dominion.o rngs.o
 	gcc -o cardtest1 cardtest1.c -g test_helpers.o dominion.o rngs.o $(CFLAGS)
 
@@ -59,9 +63,6 @@ cardtest3: test_helpers.o dominion.o rngs.o
 
 cardtest4: test_helpers.o dominion.o rngs.o
 	gcc -o cardtest4 cardtest4.c -g test_helpers.o dominion.o rngs.o $(CFLAGS)
-
-test_helpers.o: test_helpers.h
-	gcc -c test_helpers.c -g  $(CFLAGS)
 
 runtests: testDrawCard 
 	./testDrawCard &> unittestresult.out

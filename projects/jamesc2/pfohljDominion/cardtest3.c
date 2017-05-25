@@ -27,6 +27,7 @@ int main()
 		i = 0,
 		iter = 1,
 		bonus = 0, 
+		numtests = 0,
 		failure = 0;
 	int k[10] = {adventurer, embargo, village, minion, mine, cutpurse,
 			sea_hag, tribute, smithy, council_room};
@@ -87,7 +88,7 @@ int main()
 				curseBefore += 1;
 		}
 		cardEffect(sea_hag, 0, 0, 0, &Game, 3, &bonus);
-		failure += assertTrue("P. 1 count decreases by 1", 1, Game.handCount[currPlayer], cardCount0-1, "cards in p.1 after", "expected", 0);
+		failure += assertTrue("P. 1 count decreases by 1", ++numtests, Game.handCount[currPlayer], cardCount0-1, "cards in p.1 after", "expected", 0);
 		cardCount0 = Game.handCount[currPlayer];
 		for (i = 0; i < cardCount0; i++)
 		{
@@ -95,7 +96,7 @@ int main()
 				found += 1;
 		}
 
-		failure += assertTrue("Sea Hag not in hand", 2, found, 0, "sea_hag cards", "expected", 0);
+		failure += assertTrue("Sea Hag not in hand", ++numtests, found, 0, "sea_hag cards", "expected", 0);
 		// check player 1's deck for curse and total count
 		for (i = 0; i < deckCount1; i++)
 		{
@@ -103,20 +104,20 @@ int main()
 				p1curse += 1;
 		}
 
-		failure += assertTrue("Curse in p. 2 deck", 3, p1curse, curseBefore+1, "num curses", "expected", 0);
-		failure += assertTrue("Curse top in p. 2 deck", 4, Game.deck[currPlayer+1][Game.deckCount[currPlayer+1]--], curse, "top card", "expected", 0);
+		failure += assertTrue("Curse in p. 2 deck", ++numtests, p1curse, curseBefore+1, "num curses", "expected", 0);
+		failure += assertTrue("Curse top in p. 2 deck", ++numtests, Game.deck[currPlayer+1][Game.deckCount[currPlayer+1]--], curse, "top card", "expected", 0);
 		if(iter == 1)
-			failure += assertTrue("P2 deck count same", 5, Game.deckCount[currPlayer+1], deckCount1, "p2 deck count", "expected", 0);
+			failure += assertTrue("P2 deck count same", ++numtests, Game.deckCount[currPlayer+1], deckCount1, "p2 deck count", "expected", 0);
 		if(iter == 2)
-			failure += assertTrue("P2 deck now size of discard", 5, Game.deckCount[currPlayer+1], p1discard, "p2 deck count", "expected", 0);
+			failure += assertTrue("P2 deck now size of discard", ++numtests, Game.deckCount[currPlayer+1], p1discard, "p2 deck count", "expected", 0);
 		if(iter == 1)
-			failure += assertTrue("P2 discard count = +1", 6, Game.discardCount[currPlayer+1], p1discard+1, "p2 discard count", "expected", 0);
+			failure += assertTrue("P2 discard count = +1", ++numtests, Game.discardCount[currPlayer+1], p1discard+1, "p2 discard count", "expected", 0);
 		if(iter == 2)
-			failure += assertTrue("P2 discard count = 1", 6, Game.discardCount[currPlayer+1], 1, "p2 discard count", "expected", 0);			
+			failure += assertTrue("P2 discard count = 1", ++numtests, Game.discardCount[currPlayer+1], 1, "p2 discard count", "expected", 0);			
 	}
 
 
 
-	printTestEnd("cardEffect(Sea Hag)", failure, 6);
+	printTestEnd("cardEffect(Sea Hag)", failure, numtests);
 	return 0;
 }

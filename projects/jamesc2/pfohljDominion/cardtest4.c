@@ -26,6 +26,7 @@ int main()
 		i = 0,
 		bonus = 0, 
 		failure = 0,
+		numtests = 0,
 		iter = 1;
 	int k[10] = {adventurer, embargo, village, minion, mine, cutpurse,
 			sea_hag, tribute, smithy, council_room};
@@ -80,13 +81,13 @@ int main()
 		cardEffect(cutpurse, 0, 0, 0, &Game, 2, &bonus);
 
 		// check discard
-		failure += assertTrue("P. 1 count decreases by 1", 1, Game.handCount[currPlayer], cardCount0-1, "cards in p.1 after", "expected", 0);
+		failure += assertTrue("P. 1 count decreases by 1", ++numtests, Game.handCount[currPlayer], cardCount0-1, "cards in p.1 after", "expected", 0);
 		for (i = 0; i < Game.handCount[currPlayer]; i++)
 		{
 			if(Game.hand[currPlayer][i] == cutpurse)
 				found += 1;
 		}
-		failure += assertTrue("Cutpurse not in hand", 2, found, 0, "cutpurse cards", "expected", 0);
+		failure += assertTrue("Cutpurse not in hand", ++numtests, found, 0, "cutpurse cards", "expected", 0);
 
 		// check player 1's hand for copper and total count
 		for (i = 0; i < Game.handCount[currPlayer+1]; i++)
@@ -95,20 +96,20 @@ int main()
 				p1copper += 1;
 		}
 		if(copperBefore > 0){
-			failure += assertTrue("Coppers in p. 2 hand", 3, p1copper, copperBefore-1, "num coppers", "expected", 0);
+			failure += assertTrue("Coppers in p. 2 hand", ++numtests, p1copper, copperBefore-1, "num coppers", "expected", 0);
 			// check num cards in player 2's hand
-			failure += assertTrue("# cards p. 2 hand", 3, Game.handCount[currPlayer+1], cardCount1-1, "num cards", "expected", 0);
+			failure += assertTrue("# cards p. 2 hand", ++numtests, Game.handCount[currPlayer+1], cardCount1-1, "num cards", "expected", 0);
 		}
 		else {
-			failure += assertTrue("Coppers in p. 2 hand", 4, p1copper, copperBefore, "num coppers", "expected", 0);
-			failure += assertTrue("# cards p. 2 hand", 4, Game.handCount[currPlayer+1], cardCount1, "num cards", "expected", 0);
+			failure += assertTrue("Coppers in p. 2 hand", ++numtests, p1copper, copperBefore, "num coppers", "expected", 0);
+			failure += assertTrue("# cards p. 2 hand", ++numtests, Game.handCount[currPlayer+1], cardCount1, "num cards", "expected", 0);
 		}
 		
 		// check coins (+2)
 		updateCoins(currPlayer, &testG, 0);
-		failure += assertTrue("P1 Coins", 5, Game.coins, testG.coins+2, "coins", "expected", 0);
+		failure += assertTrue("P1 Coins", ++numtests, Game.coins, testG.coins+2, "coins", "expected", 0);
 	}
 
-	printTestEnd("cardEffect(Cutpurse)", failure, 5*2);
+	printTestEnd("cardEffect(Cutpurse)", failure, numtests);
 	return 0;
 }
