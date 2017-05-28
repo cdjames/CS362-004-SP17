@@ -66,13 +66,13 @@ void createRandomState(struct gameState * g, int * pl, int special){
 	int specialdisc = getRandom(g->discardCount[*pl]-1);
 	// g->deckCount[*pl] = 0; // testing empty deck
 	// make sure you have some treasure cards in deck 
-	
+	// printf("deckCount=%d\n", g->deckCount[*pl]);
 	for (i = 0; i < g->deckCount[*pl]; i++)
 	{
 		// printf("i=%d, imod5=%d\n", i, i%divisor);
 		
 		g->deck[*pl][i] = getRandom(treasure_map);
-		printf("current card=%d\n", g->deck[*pl][i]);
+		// printf("current card=%d\n", g->deck[*pl][i]);
 		if(special == 0) {
 			if(i%divisor == 0)
 				g->deck[*pl][i] = getRandom(duchy)+copper; // get random copper, silver, gold
@@ -82,17 +82,18 @@ void createRandomState(struct gameState * g, int * pl, int special){
 			if(g->deck[*pl][i] >= copper && g->deck[*pl][i] <= gold)
 				g->deck[*pl][i] = getRandom(treasure_map-7)+7; // get a card that's not a treasure
 		}		
-		printf("current card=%d\n", g->deck[*pl][i]);
+		// printf("current card=%d\n", g->deck[*pl][i]);
 	}
 	// special case where deck only has one treasure
 	if(special == 1)
 		g->deck[*pl][specialdeck] = getRandom(duchy)+copper;
-
+	// printf("card at specialdeck=%d\n", g->deck[*pl][specialdeck]);
 	// make sure you have some treasure cards in discard 
 	for (i = 0; i < g->discardCount[*pl]; i++)
 	{
 		g->discard[*pl][i] = getRandom(treasure_map);
 		// printf("i=%d, imod5=%d\n", i, i%divisor);
+		// printf("current card=%d\n", g->discard[*pl][i]);
 		if(special == 0) {
 			if(i%divisor == 0)
 				g->discard[*pl][i] = getRandom(duchy)+copper; // get random copper, silver, gold
@@ -101,6 +102,7 @@ void createRandomState(struct gameState * g, int * pl, int special){
 			if(g->discard[*pl][i] >= copper && g->discard[*pl][i] <= gold)
 				g->discard[*pl][i] = getRandom(treasure_map-7)+7; // get a card that's not a treasure
 		}
+		// printf("current card=%d\n", g->discard[*pl][i]);
 	}
 	// special case where discard only has one treasure
 	if(special == 2)

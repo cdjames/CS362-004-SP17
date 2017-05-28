@@ -1247,7 +1247,9 @@ int playSmithy(struct gameState *state, int currentPlayer, int handPos) {
 int playAdventurer(struct gameState *state, int currentPlayer, int * cardDrawn, int *temphand, int * drawntreasure, int * zr) {
   printf("playing adventurer\n");
   int z = 0;
-  while( (*drawntreasure) < 2){
+  /* fix for bug 0003; don't allow deck to be shuffled more than once */
+  int shuffles = 0;
+  while( (*drawntreasure) < 2 && shuffles < 2){
     
     // printf("deckCount=%d\n", state->deckCount[currentPlayer]);
     if (state->deckCount[currentPlayer] < 1){//if the deck is empty we need to shuffle discard and add to deck
@@ -1263,6 +1265,8 @@ int playAdventurer(struct gameState *state, int currentPlayer, int * cardDrawn, 
       state->handCount[currentPlayer]--; //this should just remove the top card (the most recently drawn one).
       z++;
     }
+    if(state->deckCount[currentPlayer] == 0)
+      shuffles++; // increment the number of shuffles
   }
   
   *zr = z;

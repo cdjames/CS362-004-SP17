@@ -67,16 +67,16 @@ void checkCard(
 	// printf("deck count pre=%d, post=%d\n", pre->deckCount[player], post->deckCount[player]);
 	// printf("hand count pre=%d, post=%d\n", pre->handCount[player], post->handCount[player]);
 	// printf("tmpsize=%d\n", tmpsize);
-	if(pre->deckCount[player] > post->deckCount[player]) { // can simulate discard and drawing
+	// if(pre->deckCount[player] > post->deckCount[player]) { // can simulate discard and drawing
 
-		// create an equal discard pile and count
-		// adventurerDiscard(pre, player, tmphand, tmpsize);
-		// add correct cards to hand and decrement deck count
-		adventurerGetTreasure(pre, player, special);
-	}
-	else { // need to simulate shuffle; not sure how else to do this besides copying all of the following
-		// printf("got here\n");
-		// copy deck and discard piles from post
+	// 	// create an equal discard pile and count
+	// 	// adventurerDiscard(pre, player, tmphand, tmpsize);
+	// 	// add correct cards to hand and decrement deck count
+	// 	adventurerGetTreasure(pre, player, special);
+	// }
+	// else { // need to simulate shuffle; not sure how else to do this besides copying all of the following
+	// 	// printf("got here\n");
+	// 	// copy deck and discard piles from post
 		memcpy(pre->deck[player], post->deck[player], sizeof(int) * (MAX_DECK));
 		memcpy(pre->discard[player], post->discard[player], sizeof(int) * (MAX_DECK));
 		memcpy(pre->hand[player], post->hand[player], sizeof(int) * (MAX_DECK));
@@ -85,13 +85,18 @@ void checkCard(
 		
 		pre->discardCount[player] = post->discardCount[player];
 		// pre->deckCount[player] -= (tmpsize + 2);
-		pre->deckCount[player] = post->deckCount[player];
-	}
-	// increase handcount by 2 (in all cases)
+		if(special)
+			pre->deckCount[player] = 0;
+		else
+			pre->deckCount[player] = post->deckCount[player];
+	// }
+	// increase handcount by 2 or 1
 	if(!special)
 		pre->handCount[player] += 2;
-	else
+	else if (special < 3)
 		pre->handCount[player] += 1;
+	else
+		pre->handCount[player] += 0;
 	// printf("AFTER ADJUSTMENTS\n");
 	// printf("discard count pre=%d, post=%d\n", pre->discardCount[player], post->discardCount[player]);
 	// printf("deck count pre=%d, post=%d\n", pre->deckCount[player], post->deckCount[player]);
@@ -111,15 +116,17 @@ void checkCard(
 	*failure += assertTrue("deck count same", ++(*num), pre->deckCount[player], post->deckCount[player], "pre", "post", 0);
 	*failure += assertTrue("hand count same", ++(*num), pre->handCount[player], post->handCount[player], "pre", "post", 0);
 	*failure += assertTrue("top card in hand same", ++(*num), pre->hand[player][pre->handCount[player]-1], post->hand[player][post->handCount[player]-1], "pre", "post", 0);
-	*failure += assertTrue("top card in deck same", ++(*num), pre->deck[player][pre->deckCount[player]-2], post->deck[player][post->deckCount[player]-2], "pre", "post", 0);
-	*failure += assertTrue("top card in discard same", ++(*num), pre->discard[player][pre->discardCount[player]-1], post->discard[player][post->discardCount[player]-1], "pre", "post", 0);
+	// if(post->deckCount[player] > 0)
+	// 	*failure += assertTrue("top card in deck same", ++(*num), pre->deck[player][pre->deckCount[player]-1], post->deck[player][post->deckCount[player]-1], "pre", "post", 0);
+	// if(post->discardCount[player] > 0)
+	// 	*failure += assertTrue("top card in discard same", ++(*num), pre->discard[player][pre->discardCount[player]-1], post->discard[player][post->discardCount[player]-1], "pre", "post", 0);
 }
 
 
 int runTest(int num, int * failure, int special) {
 	/* variables */
-	int player,
-		result,
+	int player = 0,
+		result = 0,
 		cd = 0,
 		temphand[MAX_HAND],
 		tmpsize = 0,
@@ -139,7 +146,7 @@ int runTest(int num, int * failure, int special) {
 	// 
 	// check the results
 	// printf("got here\n");
-	checkCard(result, failure, &num, player, temphand, tmpsize, g, pre, special);
+	checkCard(result, failure, &num, 0, temphand, tmpsize, g, pre, special);
 	
 	free(g);
 	// printf("freeing\n");
@@ -158,26 +165,31 @@ int main()
 	SelectStream(1);
 	PutSeed((long)seed);
 
+
 	// initiate test
 	printTestStart("playAdventurer");
-	// for (i = 0; i < NUM_RUNS; i++)
-	// {
-	// 	if(i%100 == 0){
-	// 		printf("**DISCARD CONTAINS 1 TREASURE\n");
-	// 		num = runTest(num, &failure, 2);
-	// 	}
-	// 	else if(i%50 == 0){
-	// 		printf("**DECK CONTAINS 1 TREASURE\n");
-	// 		num = runTest(num, &failure, 1);
-	// 	}
-	// 	else
-	// 		num = runTest(num, &failure, 0);
-	// }
-	num = runTest(num, &failure, 1);
+	for (i = 0; i < NUM_RUNS; i++)
+	{
+		if(i%101 == 0){
+			printf("**DISCARD && DECK CONTAIN 0 TREASURES\n");
+			num = runTest(num, &failure, 3);
+		}
+		else if(i%51 == 0){
+			printf("**DISCARD CONTAINS 1 TREASURE\n");
+			num = runTest(num, &failure, 2);
+		}
+		else if(i%20 == 0){
+			printf("**DECK CONTAINS 1 TREASURE\n");
+			num = runTest(num, &failure, 1);
+		}
+		else
+			num = runTest(num, &failure, 0);
+	}
+	// num = runTest(num, &failure, 3);
 	// // do special case: only one treasure in deck
 	// num = runTest(num, &failure, 1);
 	// // do special case: only one treasure in discard
-	// num = runTest(num, &failure, 2);
+	// num = runTest(num, &failure, 0);
 
 
 	printTestEnd("playAdventurer", failure, --num);
