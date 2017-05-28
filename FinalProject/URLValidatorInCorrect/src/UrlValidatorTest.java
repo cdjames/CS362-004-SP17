@@ -31,7 +31,12 @@ public class UrlValidatorTest extends TestCase {
 
    private boolean printStatus = false;
    private boolean printIndex = false;//print index that indicates current scheme,host,port,path, query test were using.
-
+   
+   String[] scheme = {"http://", "ftp://"};
+   String[] host = {"www.google.com", "amazon.com"};
+   StringBuffer url = new StringBuffer();
+   StringBuffer result = new StringBuffer();
+   
    public UrlValidatorTest(String testName) {
       super(testName);
    }
@@ -59,9 +64,17 @@ public class UrlValidatorTest extends TestCase {
    
    public void testIsValid()
    {
-	   for(int i = 0;i<10000;i++)
+	   UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
+
+	   for(int i = 0; i < scheme.length; i++)
 	   {
 		   
+		   for(int j = 0; j < host.length; j++){
+			   url.delete(0, url.length()); // clear the buffer
+			   url.append(scheme[i]).append(host[j]);
+			   System.out.println(urlVal.isValid(url.toString()) + " - " + url.toString());
+//			   System.out.println(url.toString());
+		   }
 	   }
    }
    
