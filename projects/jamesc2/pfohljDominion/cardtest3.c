@@ -87,6 +87,7 @@ int main()
 			if(Game.deck[currPlayer+1][i] == curse)
 				curseBefore += 1;
 		}
+		// printf("top card in hand before=%d\n", testG.deck[currPlayer+1][--testG.deckCount[currPlayer+1]]);
 		cardEffect(sea_hag, 0, 0, 0, &Game, 3, &bonus);
 		failure += assertTrue("P. 1 count decreases by 1", ++numtests, Game.handCount[currPlayer], cardCount0-1, "cards in p.1 after", "expected", 0);
 		cardCount0 = Game.handCount[currPlayer];
@@ -98,22 +99,24 @@ int main()
 
 		failure += assertTrue("Sea Hag not in hand", ++numtests, found, 0, "sea_hag cards", "expected", 0);
 		// check player 1's deck for curse and total count
-		for (i = 0; i < deckCount1; i++)
+		// printf("deck size=%d\n", Game.deckCount[currPlayer+1]);
+		for (i = 0; i < Game.deckCount[currPlayer+1]; i++)
 		{
+			// printf("this card=%d\n", Game.deck[currPlayer+1][i]);
 			if(Game.deck[currPlayer+1][i] == curse)
 				p1curse += 1;
 		}
 
 		failure += assertTrue("Curse in p. 2 deck", ++numtests, p1curse, curseBefore+1, "num curses", "expected", 0);
-		failure += assertTrue("Curse top in p. 2 deck", ++numtests, Game.deck[currPlayer+1][Game.deckCount[currPlayer+1]--], curse, "top card", "expected", 0);
-		if(iter == 1)
+		failure += assertTrue("Curse top in p. 2 deck", ++numtests, Game.deck[currPlayer+1][Game.deckCount[currPlayer+1]-1], curse, "top card", "expected", 0);
+		if(iter == 1) {
 			failure += assertTrue("P2 deck count same", ++numtests, Game.deckCount[currPlayer+1], deckCount1, "p2 deck count", "expected", 0);
-		if(iter == 2)
-			failure += assertTrue("P2 deck now size of discard", ++numtests, Game.deckCount[currPlayer+1], p1discard, "p2 deck count", "expected", 0);
-		if(iter == 1)
 			failure += assertTrue("P2 discard count = +1", ++numtests, Game.discardCount[currPlayer+1], p1discard+1, "p2 discard count", "expected", 0);
-		if(iter == 2)
+		}
+		if(iter == 2){
+			failure += assertTrue("P2 deck now size of discard", ++numtests, Game.deckCount[currPlayer+1], p1discard, "p2 deck count", "expected", 0);
 			failure += assertTrue("P2 discard count = 1", ++numtests, Game.discardCount[currPlayer+1], 1, "p2 discard count", "expected", 0);			
+		}
 	}
 
 

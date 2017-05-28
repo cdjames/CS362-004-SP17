@@ -72,6 +72,7 @@ void createRandomState(struct gameState * g, int * pl, int special){
 		// printf("i=%d, imod5=%d\n", i, i%divisor);
 		
 		g->deck[*pl][i] = getRandom(treasure_map);
+		printf("current card=%d\n", g->deck[*pl][i]);
 		if(special == 0) {
 			if(i%divisor == 0)
 				g->deck[*pl][i] = getRandom(duchy)+copper; // get random copper, silver, gold
@@ -79,9 +80,9 @@ void createRandomState(struct gameState * g, int * pl, int special){
 
 		else {// make sure there are no treasure cards
 			if(g->deck[*pl][i] >= copper && g->deck[*pl][i] <= gold)
-				g->deck[*pl][i] = getRandom((treasure_map-7)+7); // get a card that's not a treasure
-			
+				g->deck[*pl][i] = getRandom(treasure_map-7)+7; // get a card that's not a treasure
 		}		
+		printf("current card=%d\n", g->deck[*pl][i]);
 	}
 	// special case where deck only has one treasure
 	if(special == 1)
@@ -98,7 +99,7 @@ void createRandomState(struct gameState * g, int * pl, int special){
 		}
 		else {// make sure there are no treasure cards
 			if(g->discard[*pl][i] >= copper && g->discard[*pl][i] <= gold)
-				g->discard[*pl][i] = getRandom((treasure_map-7)+7); // get a card that's not a treasure
+				g->discard[*pl][i] = getRandom(treasure_map-7)+7; // get a card that's not a treasure
 		}
 	}
 	// special case where discard only has one treasure

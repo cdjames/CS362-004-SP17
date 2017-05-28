@@ -111,7 +111,7 @@ void checkCard(
 	*failure += assertTrue("deck count same", ++(*num), pre->deckCount[player], post->deckCount[player], "pre", "post", 0);
 	*failure += assertTrue("hand count same", ++(*num), pre->handCount[player], post->handCount[player], "pre", "post", 0);
 	*failure += assertTrue("top card in hand same", ++(*num), pre->hand[player][pre->handCount[player]-1], post->hand[player][post->handCount[player]-1], "pre", "post", 0);
-	*failure += assertTrue("top card in deck same", ++(*num), pre->deck[player][pre->deckCount[player]-1], post->deck[player][post->deckCount[player]-1], "pre", "post", 0);
+	*failure += assertTrue("top card in deck same", ++(*num), pre->deck[player][pre->deckCount[player]-2], post->deck[player][post->deckCount[player]-2], "pre", "post", 0);
 	*failure += assertTrue("top card in discard same", ++(*num), pre->discard[player][pre->discardCount[player]-1], post->discard[player][post->discardCount[player]-1], "pre", "post", 0);
 }
 
@@ -160,20 +160,20 @@ int main()
 
 	// initiate test
 	printTestStart("playAdventurer");
-	for (i = 0; i < NUM_RUNS; i++)
-	{
-		if(i%100 == 0){
-			printf("**DISCARD CONTAINS 1 TREASURE\n");
-			num = runTest(num, &failure, 2);
-		}
-		else if(i%50 == 0){
-			printf("**DECK CONTAINS 1 TREASURE\n");
-			num = runTest(num, &failure, 1);
-		}
-		else
-			num = runTest(num, &failure, 0);
-	}
-
+	// for (i = 0; i < NUM_RUNS; i++)
+	// {
+	// 	if(i%100 == 0){
+	// 		printf("**DISCARD CONTAINS 1 TREASURE\n");
+	// 		num = runTest(num, &failure, 2);
+	// 	}
+	// 	else if(i%50 == 0){
+	// 		printf("**DECK CONTAINS 1 TREASURE\n");
+	// 		num = runTest(num, &failure, 1);
+	// 	}
+	// 	else
+	// 		num = runTest(num, &failure, 0);
+	// }
+	num = runTest(num, &failure, 1);
 	// // do special case: only one treasure in deck
 	// num = runTest(num, &failure, 1);
 	// // do special case: only one treasure in discard
