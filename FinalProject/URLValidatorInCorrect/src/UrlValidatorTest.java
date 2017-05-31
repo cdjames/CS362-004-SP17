@@ -63,6 +63,7 @@ public class UrlValidatorTest extends TestCase {
 		  new UrlFragment(true,""),
 		  // new UrlFragment(false,":65536"), // seems like this should be invalid since only 65535 ports in IPv4, but in UrlValidator.java the regex is just looking for any combination of 1 to 5 digits
 		  new UrlFragment(false,":655354"),
+	   	  new UrlFragment(false,":NOT#"),
 		  new UrlFragment(false,";800"),
 		  new UrlFragment(false,":-7000")
 		  
