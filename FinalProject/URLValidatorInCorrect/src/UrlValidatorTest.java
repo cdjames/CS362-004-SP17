@@ -80,12 +80,20 @@ public class UrlValidatorTest extends TestCase {
    };
    UrlFragment[] path = {
 		   new UrlFragment(true,"/index"),
-		   new UrlFragment(false,"\\index"),
+		   new UrlFragment(true,"/index/resource"),
+		   new UrlFragment(true,"/index/resource;v=1.1"),
+		   new UrlFragment(false,"/"),
 		   new UrlFragment(true,"")
    };
    UrlFragment[] fragment = {
+		   new UrlFragment(true,"#"),
 		   new UrlFragment(true,"#nav"),
-		   new UrlFragment(false,"&nav"),
+		   new UrlFragment(true,"#nav?this=that"),
+		   new UrlFragment(true,"#nav/index"),
+		   new UrlFragment(false,"##nav"),
+		   new UrlFragment(true,"#%23nav"),
+		   new UrlFragment(false,"#nav:index"),
+		   new UrlFragment(true,"#nav%3Aindex"),
 		   new UrlFragment(true,"")
    };
    StringBuffer url = new StringBuffer();
