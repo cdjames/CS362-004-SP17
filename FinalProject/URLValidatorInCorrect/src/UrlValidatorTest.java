@@ -62,6 +62,7 @@ public class UrlValidatorTest extends TestCase {
 		  new UrlFragment(true,""),
 		  // new UrlFragment(false,":65536"), // seems like this should be invalid since only 65535 ports in IPv4, but in UrlValidator.java the regex is just looking for any combination of 1 to 5 digits
 		  new UrlFragment(false,":655354"),
+	   	  new UrlFragment(false,":NOT#"),
 		  new UrlFragment(false,";800"),
 		  new UrlFragment(false,":-7000")
 		  
@@ -78,12 +79,20 @@ public class UrlValidatorTest extends TestCase {
    };
    UrlFragment[] path = {
 		   new UrlFragment(true,"/index"),
-		   new UrlFragment(false,"\\index"),
+		   new UrlFragment(true,"/index/resource"),
+		   new UrlFragment(true,"/index/resource;v=1.1"),
+		   new UrlFragment(false,"/"),
 		   new UrlFragment(true,"")
    };
    UrlFragment[] fragment = {
+		   new UrlFragment(true,"#"),
 		   new UrlFragment(true,"#nav"),
-		   new UrlFragment(false,"&nav"),
+		   new UrlFragment(true,"#nav?this=that"),
+		   new UrlFragment(true,"#nav/index"),
+		   new UrlFragment(false,"##nav"),
+		   new UrlFragment(true,"#%23nav"),
+		   new UrlFragment(false,"#nav:index"),
+		   new UrlFragment(true,"#nav%3Aindex"),
 		   new UrlFragment(true,"")
    };
    StringBuffer url = new StringBuffer();
