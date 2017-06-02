@@ -1,3 +1,5 @@
 *.o
 *.gcno
 .DS_Store
+.metadata/
+.recommenders/
