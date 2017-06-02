@@ -125,7 +125,7 @@ public class UrlValidator implements Serializable {
 
     private static final int PARSE_URL_FRAGMENT = 9;
 
-    /**
+QUERY_PATTERN    /**
      * Protocol (ie. http:, ftp:,https:).
      */
     private static final String SCHEME_REGEX = "^\\p{Alpha}[\\p{Alnum}\\+\\-\\.]*";

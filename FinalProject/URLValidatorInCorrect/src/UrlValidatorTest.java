@@ -36,7 +36,7 @@ public class UrlValidatorTest extends TestCase {
  		  new UrlFragment(true,"https://"),
  		  new UrlFragment(true,"http://"),
  		  new UrlFragment(true,"ftp://"),
- 		  new UrlFragment(false,"htp://"),
+ 		  new UrlFragment(false,"4tp://"),
  		  new UrlFragment(false,"http//"),
  		  new UrlFragment(false,"ftp:/"),
  		  new UrlFragment(false,"https:")
@@ -49,7 +49,6 @@ public class UrlValidatorTest extends TestCase {
 		  new UrlFragment(true,"bit.ly"),
 		  new UrlFragment(true,"www-e.uni-magdeburg.de"),
 		  new UrlFragment(true,"127.0.0.1"),
-		  new UrlFragment(false,"amazon."),
 		  new UrlFragment(false,"amazon."),
 		  new UrlFragment(false,"ww.amazon.jp"),
 		  new UrlFragment(false,"wwe.wwf"),
@@ -73,9 +72,9 @@ public class UrlValidatorTest extends TestCase {
 		  new UrlFragment(true,"")
 		  // if you look at the regex pattern in UrlValidator.java, it's just any number of characters...
 		  // so, it seems like the following all should pass. Not sure what to do so I'll comment them out for now
-		  // new UrlFragment(false,"?thisthat"),
-		  // new UrlFragment(false,"this=that"),
-		  // new UrlFragment(false,"?this=")
+		  new UrlFragment(false,"?thisthat"),
+		  new UrlFragment(false,"this=that"),
+		  new UrlFragment(false,"?this=#")
    };
    UrlFragment[] path = {
 		   new UrlFragment(true,"/index"),
