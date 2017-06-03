@@ -4,7 +4,7 @@ public class DebugUrlValidator
 	{
 		UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
 		
-		// System.out.println(urlVal.isValid("http://www.example.net/afternoon/animal.php?border=account"));
-		urlVal.isValid("http://www.example.net/afternoon/animal.php?border=account");
+		System.out.println(urlVal.isValid("ftp://bit.ly#"));
+		urlVal.isValid("ftp://bit.ly#");
 	}
 }
