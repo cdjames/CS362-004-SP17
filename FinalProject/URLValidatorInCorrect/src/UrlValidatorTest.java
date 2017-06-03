@@ -251,21 +251,21 @@ public class UrlValidatorTest extends TestCase {
 	   // scheme, host
 
 	   System.out.println("Expect false for URL with  *scheme and host - "
-			   + urlVal.isValid("totallyBogus://www.example.com"));
+			   + urlVal.isValid("totally Bogus://www.example.com"));
 
 	   System.out.println("Expect false for URL with scheme and *host - "
-			   + urlVal.isValid("http://totallyBogus"));
+			   + urlVal.isValid("http@qw1://totallyBogus"));
 
 	   // scheme, host, fragment
 
 	   System.out.println("Expect false for URL with *scheme, host, and fragment - " +
-			   urlVal.isValid("snorg://subdomain.example.com/#fragment"));
+			   urlVal.isValid("snorg_s://subdomain.example.com/#fragment"));
 
 	   System.out.println("Expect false for URL with scheme, *host, and fragment - " +
-			   urlVal.isValid("https://snorg/#fragment"));
+			   urlVal.isValid("7/7https://snorg/#fragment"));
 
 	   System.out.println("Expect false for URL with scheme, host, and *fragment - " +
-			   urlVal.isValid("https://subdomain.example.com/#s n o r g"));
+			   urlVal.isValid("://subdomain.example.com/#s n o r g"));
 
 	   // scheme, host, port
 
@@ -281,7 +281,7 @@ public class UrlValidatorTest extends TestCase {
 	   // scheme, host, port, fragment
 
 	   System.out.println("Expect false for URL with *scheme, host, port, and fragment - " +
-			   urlVal.isValid("derp://www.example.com:55/#fragment/parts"));
+			   urlVal.isValid("derp::://www.example.com:55/#fragment/parts"));
 
 	   System.out.println("Expect false for URL with scheme, *host, port, and fragment - " +
 			   urlVal.isValid("http://derpa:55/#fragment/parts"));
@@ -295,7 +295,7 @@ public class UrlValidatorTest extends TestCase {
 	   // scheme, host, port, path
 
 	   System.out.println("Expect false for URL with *scheme, host, port, and path - " +
-			   urlVal.isValid("this has spaces://www.google.co.uk:80/path/to/something.php"));
+			   urlVal.isValid("this has spaces://///www.google.co.uk:80/path/to/something.php"));
 
 	   System.out.println("Expect false for URL with scheme, *host, port, and path - " +
 			   urlVal.isValid("https://so does this:80/path/to/something.php"));
@@ -363,7 +363,7 @@ public class UrlValidatorTest extends TestCase {
 	   // scheme, host, port, query
 
 	   System.out.println("Expect false for URL with *scheme, host, port, and query - " +
-			   urlVal.isValid("vaticide://tell.me.com:169?what=should&this=be"));
+			   urlVal.isValid("vaticide://///tell.me.com:169?what=should&this=be"));
 
 	   System.out.println("Expect false for URL with scheme, *host, port, and query - " +
 			   urlVal.isValid("about:// W T F is that?:169?what=should&this=be"));
@@ -377,7 +377,7 @@ public class UrlValidatorTest extends TestCase {
 	   // scheme, host, port, query, fragment
 
 	   System.out.println("Expect false for url with *scheme, host, port, query, and fragment - " +
-			   urlVal.isValid("SpIny://www.dogbone.com:555/?give=me&a=bone#PLEASE"));
+			   urlVal.isValid("SpIny:_//www.dogbone.com:555/?give=me&a=bone#PLEASE"));
 
 	   System.out.println("Expect false for url with scheme, *host, port, query, and fragment - " +
 			   urlVal.isValid("http://!!()!!:555/?give=me&a=bone$PLEASE"));
@@ -405,7 +405,7 @@ public class UrlValidatorTest extends TestCase {
 	   // scheme, host, path, fragment
 
 	   System.out.println("Expect false for URL with *scheme, host, path, and fragment - " +
-			   urlVal.isValid("floobity://eat.chicken.com/blargh/pop.aspx#coolThing"));
+			   urlVal.isValid("floobity098:?:?:://eat.chicken.com/blargh/pop.aspx#coolThing"));
 
 	   System.out.println("Expect false for URL with scheme, *host, path, and fragment - " +
 			   urlVal.isValid("http://do.pa.de.d000!@#/blargh/pop.aspx#coolThing"));
@@ -445,7 +445,7 @@ public class UrlValidatorTest extends TestCase {
 	   // scheme, host, path, query
 
 	   System.out.println("Expect false for URL with *scheme, host, path, and query - " +
-			   urlVal.isValid("1one2two://www.google.co.uk/take/me/to/your/leader.aspx?foo=bar"));
+			   urlVal.isValid("1o ne2two://www.google.co.uk/take/me/to/your/leader.aspx?foo=bar"));
 
 	   System.out.println("Expect false for URL with scheme, *host, path, and query - " +
 			   urlVal.isValid("http://doubleyoudoubleyoudoubleyou.google.co.uk/take/me/to/your/leader.aspx?foo=bar"));
@@ -492,7 +492,6 @@ public class UrlValidatorTest extends TestCase {
 	   System.out.println("Expect false for URL missing all parts - " +
 			   urlVal.isValid("This is just a sentence."));
    }
-
 
    public void testIsValid()
    {
@@ -561,6 +560,4 @@ public class UrlValidatorTest extends TestCase {
     *
     * @param testObjects Used to create a url.
     */
-
-
 }
