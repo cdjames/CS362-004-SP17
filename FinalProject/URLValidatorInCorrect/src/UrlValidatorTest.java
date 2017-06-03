@@ -70,7 +70,7 @@ public class UrlValidatorTest extends TestCase {
    UrlFragment[] query = {
 		  new UrlFragment(true,"?this=that"),
 		  new UrlFragment(true,"?resetToken=8pfZWMh9tYFt9b8%2FcpmCizLxd5xbhXqSm67PWKoOpkdqUWTlro2ET%2BRHyS6WUfPWYMfrwi4kkkc%2FJFuxrdLVJQ%3D%3D&email=@&crAssisted=true"),
-		  new UrlFragment(true,"")
+		  new UrlFragment(true,""),
 		  // if you look at the regex pattern in UrlValidator.java, it's just any number of characters...
 		  // so, it seems like the following all should pass. Not sure what to do so I'll comment them out for now
 		  new UrlFragment(false,"?thisthat"),
