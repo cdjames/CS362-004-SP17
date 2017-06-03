@@ -79,9 +79,13 @@ public class UrlValidatorTest extends TestCase {
    };
    UrlFragment[] path = {
 		   new UrlFragment(true,"/index"),
+		   new UrlFragment(true,"/index/"),
 		   new UrlFragment(true,"/index/resource"),
+		   new UrlFragment(true,"/index/resource/"),
+		   new UrlFragment(false,"/index//resource"),
 		   new UrlFragment(true,"/index/resource;v=1.1"),
-		   new UrlFragment(false,"/"),
+		   new UrlFragment(false,"/.."),
+		   new UrlFragment(false,"/index/../"),
 		   new UrlFragment(true,"")
    };
    UrlFragment[] fragment = {
