@@ -502,8 +502,9 @@ public class UrlValidatorTest extends TestCase {
 	   String[] validSchemes = {"https://", "http://", "ftp://"};
 	   Integer numTests = 0;
 	   Integer failures = 0;
-	   UrlValidator urlVal = new UrlValidator(validSchemes);
-
+//	   UrlValidator urlVal = new UrlValidator(validSchemes);
+	   UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
+	   System.out.println("***************** Begin testIsValid");
 	   for(int i = 0; i < scheme.length; i++) {
 		   
 		   for(int j = 0; j < host.length; j++) {
@@ -532,7 +533,7 @@ public class UrlValidatorTest extends TestCase {
 							   
 							   if(actual != expected) {
 							   		failures++;
-								   System.out.println("Actual: " + actual + " - " + url.toString() + " - Expected: " + expected);
+								   System.out.println("Actual: " + actual + " - Expected: " + expected + " - " + url.toString() );
 							   }
 							   numTests++;
 						   }
@@ -544,6 +545,7 @@ public class UrlValidatorTest extends TestCase {
 	   if(failures > 0){
 		   System.out.println("----------------- There were failures.");
 		   System.out.println("----------------- " + (numTests-failures) + "/" + numTests + " passed.");
+		   System.out.println("Number tests expected: " + (scheme.length*host.length*port.length*path.length*query.length*fragment.length));
 		}
 		else {
 		   System.out.println("+++++++++++++++++ All tests passed.");
