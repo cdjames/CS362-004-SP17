@@ -73,9 +73,11 @@ public class UrlValidatorTest extends TestCase {
 		  new UrlFragment(true,""),
 		  // if you look at the regex pattern in UrlValidator.java, it's just any number of characters...
 		  // so, it seems like the following all should pass. Not sure what to do so I'll comment them out for now
-		  new UrlFragment(false,"?thisthat"),
-		  new UrlFragment(false,"this=that"),
-		  new UrlFragment(false,"?this=#")
+		  new UrlFragment(true,"?thisthat"),
+		  new UrlFragment(true,"/this=that"),
+		  new UrlFragment(true,"?this=#"),
+		  new UrlFragment(false, " {}"),
+		  new UrlFragment(false, " :::")
    };
    UrlFragment[] path = {
 		   new UrlFragment(true,"/index"),
@@ -85,17 +87,18 @@ public class UrlValidatorTest extends TestCase {
 		   new UrlFragment(false,"/index//resource"),
 		   new UrlFragment(true,"/index/resource;v=1.1"),
 		   new UrlFragment(false,"/.."),
-		   new UrlFragment(false,"/index/../"),
-		   new UrlFragment(true,"")
+		   new UrlFragment(true,"/index/../"),
+		   new UrlFragment(true,""),
+		   new UrlFragment(false, "/../"),
    };
    UrlFragment[] fragment = {
 		   new UrlFragment(true,"#"),
 		   new UrlFragment(true,"#nav"),
 		   new UrlFragment(true,"#nav?this=that"),
 		   new UrlFragment(true,"#nav/index"),
-		   new UrlFragment(false,"##nav"),
+		   new UrlFragment(true,"##nav"),
 		   new UrlFragment(true,"#%23nav"),
-		   new UrlFragment(false,"#nav:index"),
+		   new UrlFragment(true,"#nav:index"),
 		   new UrlFragment(true,"#nav%3Aindex"),
 		   new UrlFragment(true,"")
    };
@@ -356,13 +359,13 @@ public class UrlValidatorTest extends TestCase {
 			   urlVal.isValid("http://bread.plate.ca:123456789/*-/here/is/some/cheese/bread?would=you&like=some#yes/please"));
 
 	   System.out.println("Expect false for URL with scheme, host, port, *path, query, and fragment - " +
-			   urlVal.isValid("http://bread.plate.ca:6459/123456789/*-?would=you&like=some#yes/please"));
+			   urlVal.isValid("http://bread.plate.ca:6459/1234 56789/*-?would=you&like=some#yes/please"));
 
 	   System.out.println("Expect false for URL with scheme, host, port, path, *query, and fragment - " +
-			   urlVal.isValid("http://bread.plate.ca:6459/here/is/some/cheese/bread?123456789/*-#yes/please"));
+			   urlVal.isValid("http://bread.plate.ca:6459/here/is/some/cheese/bread?1234567 89/*-#yes/please"));
 
 	   System.out.println("Expect false for URL with scheme, host, port, path, query, and *fragment - " +
-			   urlVal.isValid("http://bread.plate.ca:6459/here/is/some/cheese/bread?would=you&like=some#123456789/*-"));
+			   urlVal.isValid("http://bread.plate.ca:6459/here/is/some/cheese/bread?would=you&like=some#123456789/ *-"));
 
 	   // scheme, host, port, query
 
@@ -427,10 +430,10 @@ public class UrlValidatorTest extends TestCase {
 			   urlVal.isValid("get a hat://www.example.com?can=I&has=a&passing=test"));
 
 	   System.out.println("Expect false for URL with scheme, *host, and query - " +
-			   urlVal.isValid("https://wwwwwwwwwwwwwwwwwwwwwwwww.com?can=I&has=a&passing=test"));
+			   urlVal.isValid("https://w<O_o>wwwwwwwwwwwwwwwwwwwwwwww.com?can=I&has=a&passing=test"));
 
-	   System.out.println("Expect false for URL with scheme, host, and *query - " +
-			   urlVal.isValid("https://www.example.com?can=yes=no=totally"));
+	   System.out.println("Expect false for URL with scheme, host, and *query - https://www.example.com?can=yes=no=totally" +
+			   urlVal.isValid("https://www.example.com?can\\&=yes\\&=n\\&=totally"));
 
 	   // scheme, host, query, fragment
 
@@ -505,9 +508,14 @@ public class UrlValidatorTest extends TestCase {
 	   String[] validSchemes = {"https://", "http://", "ftp://"};
 	   Integer numTests = 0;
 	   Integer failures = 0;
+<<<<<<< HEAD
 //	   UrlValidator urlVal = new UrlValidator(validSchemes);
 	   UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
 	   System.out.println("***************** Begin testIsValid");
+=======
+	   UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
+
+>>>>>>> 31cb82ec9bb636332526244ff1af20113189e3a2
 	   for(int i = 0; i < scheme.length; i++) {
 		   
 		   for(int j = 0; j < host.length; j++) {
